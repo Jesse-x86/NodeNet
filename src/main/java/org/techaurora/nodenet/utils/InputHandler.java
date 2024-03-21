@@ -29,4 +29,6 @@ public interface InputHandler {
      * False if not all input are available
      */
     public void invoke();
+
+    public void checkAvaliability();
 }

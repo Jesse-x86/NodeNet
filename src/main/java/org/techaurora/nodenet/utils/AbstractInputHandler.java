@@ -11,6 +11,7 @@ public abstract class AbstractInputHandler implements InputHandler {
     protected Node node;
     protected Method m;
     protected Parameter[] parameters;
+    protected boolean isStatic;
 
     public AbstractInputHandler(){
 
@@ -32,5 +33,10 @@ public abstract class AbstractInputHandler implements InputHandler {
     }
 
     abstract public void insert(Object input, int index);
+    public boolean isStatic(){
+        return isStatic;
+    }
+
+    abstract public void checkAvaliability();
 
 }

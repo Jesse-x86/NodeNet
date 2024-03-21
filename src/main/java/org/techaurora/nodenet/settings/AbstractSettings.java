@@ -1,0 +1,31 @@
+package org.techaurora.nodenet.settings;
+
+import java.lang.reflect.ParameterizedType;
+
+public abstract class AbstractSettings<T> implements Settings{
+
+    protected String name;
+    protected T value;
+    protected Validator validator;
+    protected Class<T> type;
+
+    public AbstractSettings(String name, Class<T> type, T value, Validator validator){
+        this.name = name;
+        this.type = type;
+        this.validator = validator;
+        setValue(value);
+    }
+
+    public boolean setValue(Object value){
+        if((null == validator || validator.validate(value)) && type.isInstance(value)){
+            this.value = type.cast(value);
+            return true;
+        }
+        return false;
+    }
+
+    public T getValue(){
+        return value;
+    }
+
+}

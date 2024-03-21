@@ -1,4 +1,4 @@
 package org.techaurora.nodenet.utils;
 
-public class AbstractOutputHandler implements OutputHandler{
+public abstract class AbstractOutputHandler implements OutputHandler{
 }

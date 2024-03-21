@@ -6,6 +6,7 @@ import java.util.List;
 
 public abstract class AbstractContainer implements Container {
     List<Node> startUpNodes;
+    List<Object> globalObjects;
 
 
 }
