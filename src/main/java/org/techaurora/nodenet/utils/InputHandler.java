@@ -2,6 +2,8 @@ package org.techaurora.nodenet.utils;
 
 import org.techaurora.nodenet.nodes.Node;
 
+import java.util.List;
+
 /**
  * InputHandler are used to deal with different type of input handling logics
  * while not having to be embedded in Nodes.
@@ -20,15 +22,16 @@ public interface InputHandler {
      * @param index
      * @throws IndexOutOfBoundsException
      */
-    public void insert(Object input, int index) throws IndexOutOfBoundsException;
-    public boolean isAvaliable();
+//    public void input(int index, Object input) throws IndexOutOfBoundsException;
+    public void input(int index, Object input, boolean isPersistent) throws IndexOutOfBoundsException;
 
     /**
      *
      * @return True if all input that are not null-able are available
      * False if not all input are available
      */
-    public void invoke();
-
-    public void checkAvaliability();
+    public boolean isAvaliable();
+    public List<Object> provide();
+    public List<Object> provideCopy();
+    public List<Object> provideAndEmpty();
 }

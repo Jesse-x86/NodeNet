@@ -1,6 +1,8 @@
 package org.techaurora.nodenet.nodes;
 
+import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
+import org.techaurora.nodenet.utils.OutputHandler;
 
 import java.util.List;
 
@@ -11,12 +13,15 @@ import java.util.List;
  */
 public interface Node {
     public void setInputHandler(InputHandler inputHandler);
-    public String getMethodName();
+    public void setOutputHandler(OutputHandler outputHandler);
 
-    public Class<?> getInputType(int index);
+    public Class<?> getInputType(int index) throws IndexOutOfBoundsException;
     public List<Class<?>> getInputTypes();
-    public Class<?> getOutputType(int index);
+    public Class<?> getOutputType(int index) throws IndexOutOfBoundsException;
     public List<Class<?>> getOutputTypes();
+    public Validator getInputValidator(int index) throws IndexOutOfBoundsException;
+    public List<Validator> getInputValidators();
 
-
+    public void input(int index, Object obj, boolean isPersistent);
+    public void checkAndProceed();
 }

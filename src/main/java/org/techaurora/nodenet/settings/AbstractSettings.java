@@ -1,9 +1,6 @@
 package org.techaurora.nodenet.settings;
 
-import java.lang.reflect.ParameterizedType;
-
 public abstract class AbstractSettings<T> implements Settings{
-
     protected String name;
     protected T value;
     protected Validator validator;
@@ -14,6 +11,10 @@ public abstract class AbstractSettings<T> implements Settings{
         this.type = type;
         this.validator = validator;
         setValue(value);
+    }
+
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 
     public boolean setValue(Object value){
@@ -27,5 +28,4 @@ public abstract class AbstractSettings<T> implements Settings{
     public T getValue(){
         return value;
     }
-
 }

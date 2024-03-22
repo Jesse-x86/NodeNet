@@ -4,23 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractSettingsHandler implements SettingsHandler{
-
     List<Settings> settingsList;
 
-    public AbstractSettingsHandler(){
-
+    public void init(List<Settings> settingsList){
+        this.settingsList = settingsList;
     }
 
-    public void init(List<String> names, List<Class<?>> types, List<Object> values, List<Validator> validators){
-        try{
-            settingsList = new ArrayList<>();
-            int l = names.size();
-            for(int i = 0; i < l; i++){
-                settingsList.add(new SettingsInstance(names.get(i), types.get(i), values.get(i), validators.get(i)));
-            }
-        } catch (Exception e){
-            //TODO
-        }
+    public Settings getSettings(int index){
+        return settingsList.get(index);
+    }
+    public void setSettings(int index, Settings settings){
+        settingsList.set(index, settings);
+    }
+
+    public Object getSettingsValue(int index){
+        return settingsList.get(index).getValue();
+    }
+    public void setSettingsValue(int index, Object value){
+        settingsList.get(index).setValue(value);
     }
 
     private boolean validate(Validator validator, Object obj){
