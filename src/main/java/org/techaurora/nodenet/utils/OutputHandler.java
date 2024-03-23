@@ -14,6 +14,8 @@ public interface OutputHandler {
 //    public void disconnect(int index, List<OutputRouter> targets);
 //    public void disconnect(List<List<OutputRouter>> targets);
 
+    public void setOutputRouters(List<List<OutputRouter>> outputRouters);
+    public List<List<OutputRouter>> getOutputRouters();
     public void output(int index, Object obj, boolean isPersistent);
 
 //    public void output();

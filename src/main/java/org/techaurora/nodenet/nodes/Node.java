@@ -3,6 +3,7 @@ package org.techaurora.nodenet.nodes;
 import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.utils.OutputRouter;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface Node {
 
     public void input(int index, Object obj, boolean isPersistent);
     public void checkAndProceed();
+
+    public void connect(int index, Node target, int targetIndex);
+    public void disconnect(int index, Node target, int targetIndex);
 }

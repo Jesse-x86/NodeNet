@@ -24,8 +24,8 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
         settingsList.get(index).setValue(value);
     }
 
-    private boolean validate(Validator validator, Object obj){
-        if(null == validator) return true;
-        return(validator.validate(obj));
-    }
+//    private boolean validate(Validator validator, Object obj){
+//        if(null == validator) return true;
+//        return(validator.validate(obj));
+//    }
 }

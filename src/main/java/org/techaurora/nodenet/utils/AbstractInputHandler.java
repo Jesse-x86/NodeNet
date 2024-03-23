@@ -16,6 +16,7 @@ public abstract class AbstractInputHandler implements InputHandler {
 
     }
 
+    @Override
     public void init(Node node){
         this.node = node;
         cache = new ArrayList<>();
@@ -29,6 +30,8 @@ public abstract class AbstractInputHandler implements InputHandler {
 //    public void input(int index, Object input){
 //        input(index, input, false);
 //    }
+
+    @Override
     public void input(int index, Object input, boolean isPersistent){
         if(null == input || node.getInputType(index).isInstance(input)) {
             cache.set(index, input);
@@ -36,6 +39,7 @@ public abstract class AbstractInputHandler implements InputHandler {
         }
     }
 
+    @Override
     public boolean isAvaliable(){
         List<Validator> validators = node.getInputValidators();
         for(int i = 0; i < cache.size(); i++){
@@ -47,6 +51,7 @@ public abstract class AbstractInputHandler implements InputHandler {
         return true;
     }
 
+    @Override
     public List<Object> provide(){
         List<Object> _c = new ArrayList<>();
         for(int i = 0; i < cache.size(); i++){
@@ -57,9 +62,11 @@ public abstract class AbstractInputHandler implements InputHandler {
         }
         return _c;
     }
+    @Override
     public List<Object> provideCopy(){
         return List.copyOf(cache);
     }
+    @Override
     public List<Object> provideAndEmpty(){
         List<Object> _c = cache;
         init(node);

@@ -3,6 +3,7 @@ package org.techaurora.nodenet.nodes;
 import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.utils.OutputRouter;
 
 import java.util.List;
 
@@ -93,4 +94,12 @@ public abstract class AbstractNode implements Node {
     }
 
     protected abstract void proceed(List<Object> objects);
+
+
+    public void connect(int index, Node target, int targetIndex){
+        outputHandler.connect(index, new OutputRouter(targetIndex, target));
+    }
+    public void disconnect(int index, Node target, int targetIndex){
+        outputHandler.disconnect(index, new OutputRouter(targetIndex, target));
+    }
 }
