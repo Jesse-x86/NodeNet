@@ -6,7 +6,7 @@ public abstract class AbstractSettings<T> implements Settings{
     protected Validator validator;
     protected Class<T> type;
 
-    public AbstractSettings(String name, Class<T> type, T value, Validator validator){
+    public void init(String name, Class type, Object value, Validator validator){
         this.name = name;
         this.type = type;
         this.validator = validator;
