@@ -12,11 +12,11 @@ public class OutputRouter {
         this.node = node;
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if(OutputRouter.class.isInstance(obj)){
-//            return index == ((OutputRouter) obj).index && node.equals(((OutputRouter) obj).node);
-//        }
-//        return super.equals(obj);
-//    }
+    @Override
+    public boolean equals(Object obj) {
+        if(OutputRouter.class.isInstance(obj)){
+            return index == ((OutputRouter) obj).index && node.equals(((OutputRouter) obj).node);
+        }
+        return super.equals(obj);
+    }
 }

@@ -13,6 +13,11 @@ import java.util.List;
  *
  */
 public interface Node {
+
+    public void setInputTypes(List<Class<?>> inputTypes);
+    public void setOutputTypes(List<Class<?>> outputTypes);
+    public void setInputValidators(List<Validator> inputValidators);
+
     public void setInputHandler(InputHandler inputHandler);
     public void setOutputHandler(OutputHandler outputHandler);
 
@@ -24,6 +29,10 @@ public interface Node {
     public List<Validator> getInputValidators();
 
     public void input(int index, Object obj, boolean isPersistent);
+
+    /**
+     * Check whether the input is ready. If input is ready, then proceed.
+     */
     public void checkAndProceed();
 
     public void connect(int index, Node target, int targetIndex);

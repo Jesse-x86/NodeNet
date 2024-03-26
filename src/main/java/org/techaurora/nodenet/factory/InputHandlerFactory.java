@@ -4,6 +4,8 @@ import org.techaurora.nodenet.nodes.Node;
 import org.techaurora.nodenet.utils.InputHandler;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
 import java.util.Map;
 
 public class InputHandlerFactory implements Factory{
@@ -13,7 +15,16 @@ public class InputHandlerFactory implements Factory{
      */
     @Override
     public void init(Map<String, Class<?>> classSet) {
-        data = (Map<String, Class<? extends InputHandler>>) classSet;
+        if(null == data) data = new HashMap<>();
+        for(String k : classSet.keySet()){
+            Class<?> clazz = classSet.get(k);
+            if(clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())){
+                continue;
+            }
+            if(InputHandler.class.isAssignableFrom(clazz)){
+                data.put(k, clazz.asSubclass(InputHandler.class));
+            }
+        }
     }
 
     /**

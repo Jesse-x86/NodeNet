@@ -7,7 +7,17 @@ import java.util.List;
 
 public abstract class AbstraceNodeWithSettings extends AbstractNode implements NodeWithSettings{
     protected SettingsHandler settingsHandler;
-    protected static List<Settings> settings;
+
+    /**
+     * Used to store a list of settings
+     * If you don't initialize the settings list, you probably don't need to extend this Node
+     * , try to extend AbstractNode instead.
+     */
+    protected List<Settings> settings;
+
+    public void setSettings(List<Settings> settings) {
+        this.settings = settings;
+    }
     public void setSettingsHandler(SettingsHandler settingsHandler){
         this.settingsHandler = settingsHandler;
         this.settingsHandler.init(settings);

@@ -11,9 +11,19 @@ public abstract class AbstractNode implements Node {
 
     protected InputHandler inputHandler;
     protected OutputHandler outputHandler;
+    protected List<Class<?>> inputTypes;
+    protected List<Class<?>> outputTypes;
+    protected List<Validator> inputValidators;
 
-    protected static List<Class<?>> inputTypes, outputTypes;
-    protected static List<Validator> inputValidators;
+    public void setInputTypes(List<Class<?>> inputTypes) {
+        this.inputTypes = inputTypes;
+    }
+    public void setOutputTypes(List<Class<?>> outputTypes) {
+        this.outputTypes = outputTypes;
+    }
+    public void setInputValidators(List<Validator> inputValidators) {
+        this.inputValidators = inputValidators;
+    }
 
     /**
      * @param inputHandler The InputHandler to inject

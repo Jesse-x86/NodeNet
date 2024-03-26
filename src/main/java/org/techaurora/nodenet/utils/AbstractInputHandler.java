@@ -36,6 +36,8 @@ public abstract class AbstractInputHandler implements InputHandler {
         if(null == input || node.getInputType(index).isInstance(input)) {
             cache.set(index, input);
             this.isPersistent.set(index, isPersistent);
+        } else{
+            throw new IllegalArgumentException("Illegal Input. Demand " + node.getInputType(index).getName() + ", got " + input.getClass().getName());
         }
     }
 
