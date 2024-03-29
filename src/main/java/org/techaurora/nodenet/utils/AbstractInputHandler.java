@@ -23,7 +23,7 @@ public abstract class AbstractInputHandler implements InputHandler {
         isPersistent = new ArrayList<>();
         for(int i = 0; i < this.node.getInputTypes().size(); i++) {
             cache.add(null);
-            isPersistent.add(null);
+            isPersistent.add(false);
         }
     }
 

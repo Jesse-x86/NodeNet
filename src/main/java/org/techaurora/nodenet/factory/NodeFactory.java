@@ -32,8 +32,13 @@ public class NodeFactory implements Factory {
      * @return
      */
     @Override
-    public Node build(String className) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public Node build(String className) {
         if(data.get(className) == null) return null;
-        return data.get(className).getConstructor().newInstance();
+        try {
+            return data.get(className).getConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -33,8 +33,13 @@ public class OutputHandlerFactory implements Factory{
      * @return
      */
     @Override
-    public OutputHandler build(String className) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public OutputHandler build(String className) {
         if(data.get(className) == null) return null;
-        return data.get(className).getConstructor().newInstance();
+        try {
+            return data.get(className).getConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

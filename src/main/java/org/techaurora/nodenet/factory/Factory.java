@@ -5,5 +5,5 @@ import java.util.Map;
 
 public interface Factory {
     public void init(Map<String, Class<?>> classSet);
-    public Object build(String className) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
+    public Object build(String className);
 }
