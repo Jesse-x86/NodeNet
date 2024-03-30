@@ -13,12 +13,14 @@ public abstract class AbstractSettings<T> implements Settings{
         setValue(value);
     }
 
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
+//    public void setValidator(Validator validator) {
+//        this.validator = validator;
+//    }
 
     public boolean setValue(Object value){
-        if((null == validator || validator.validate(value)) && type.isInstance(value)){
+        if(null == validator ||
+                (type.isInstance(value) && validator.validate(value))
+        ){
             this.value = type.cast(value);
             return true;
         }

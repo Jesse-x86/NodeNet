@@ -10,9 +10,7 @@ import java.util.Map;
 
 public class NodeFactory implements Factory {
     Map<String, Class<? extends Node>> data;
-    /**
-     * @param classSet
-     */
+
     @Override
     public void init(Map<String, Class<?>> classSet) {
         if(null == data) data = new HashMap<>();
@@ -27,10 +25,6 @@ public class NodeFactory implements Factory {
         }
     }
 
-    /**
-     * @param className
-     * @return
-     */
     @Override
     public Node build(String className) {
         if(data.get(className) == null) return null;

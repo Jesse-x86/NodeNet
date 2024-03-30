@@ -70,7 +70,7 @@ public abstract class AbstractNode implements Node {
     }
 
     /**
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public List<Class<?>> getOutputTypes() {
@@ -84,13 +84,18 @@ public abstract class AbstractNode implements Node {
     }
 
     /**
-     * @param obj
-     * @param index
+     * @param index the index of the objected to be inputed into
+     * @param obj The object to be input-ed. Wrong type of input cause no error but triggers no input and checkAndProceed()
+     * @param isPersistent Whether this input should be saved after calling provide() function,true = save, false = not save, false by default
      */
     @Override
     public void input(int index, Object obj, boolean isPersistent) {
-        inputHandler.input(index, obj, isPersistent);
-        checkAndProceed();
+        try {
+            inputHandler.input(index, obj, isPersistent);
+            checkAndProceed();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

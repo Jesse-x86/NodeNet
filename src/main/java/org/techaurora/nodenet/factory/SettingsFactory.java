@@ -10,9 +10,7 @@ import java.util.Map;
 
 public class SettingsFactory implements Factory{
     Map<String, Class<? extends Settings>> data;
-    /**
-     * @param classSet
-     */
+
     @Override
     public void init(Map<String, Class<?>> classSet) {
         if(null == data) data = new HashMap<>();
@@ -27,10 +25,6 @@ public class SettingsFactory implements Factory{
         }
     }
 
-    /**
-     * @param className
-     * @return
-     */
     @Override
     public Settings build(String className) {
         if(data.get(className) == null) return null;

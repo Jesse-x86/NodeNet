@@ -11,9 +11,7 @@ import java.util.Map;
 
 public class OutputHandlerFactory implements Factory{
     Map<String, Class<? extends OutputHandler>> data;
-    /**
-     * @param classSet
-     */
+
     @Override
     public void init(Map<String, Class<?>> classSet) {
         if(null == data) data = new HashMap<>();
@@ -28,10 +26,6 @@ public class OutputHandlerFactory implements Factory{
         }
     }
 
-    /**
-     * @param className
-     * @return
-     */
     @Override
     public OutputHandler build(String className) {
         if(data.get(className) == null) return null;

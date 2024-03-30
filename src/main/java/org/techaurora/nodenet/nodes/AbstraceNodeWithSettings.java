@@ -15,7 +15,7 @@ public abstract class AbstraceNodeWithSettings extends AbstractNode implements N
      */
     protected List<Settings> settings;
 
-    public void setSettings(List<Settings> settings) {
+    public void settingsInit(List<Settings> settings) {
         this.settings = settings;
     }
     public void setSettingsHandler(SettingsHandler settingsHandler){
