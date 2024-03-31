@@ -5,7 +5,7 @@ import org.techaurora.nodenet.settings.SettingsHandler;
 
 import java.util.List;
 
-public abstract class AbstraceNodeWithSettings extends AbstractNode implements NodeWithSettings{
+public abstract class AbstractNodeWithSettings extends AbstractNode implements NodeWithSettings{
     protected SettingsHandler settingsHandler;
 
     /**
