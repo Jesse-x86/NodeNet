@@ -10,8 +10,8 @@ public interface NodeWithSettings extends Node{
      * Initialize the settings, usually include all necessary settings already, with some exceptions
      * @param settings set the settings of current Node
      */
-    public void settingsInit(List<Settings> settings);
-    public void setSettingsHandler(SettingsHandler settingsHandler);
+    public NodeWithSettings settingsInit(List<Settings> settings);
+    public NodeWithSettings setSettingsHandler(SettingsHandler settingsHandler);
 
     /**
      * get Settings at index.

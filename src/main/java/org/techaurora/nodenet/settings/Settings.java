@@ -8,7 +8,7 @@ public interface Settings<T> {
      * @param value Default value of the setting, can be null
      * @param validator Validator of the setting, can be null
      */
-    public void init(String name, Class<T> type, T value, Validator validator);
+    public Settings init(String name, Class<T> type, T value, Validator validator);
 
     /**
      * Update the value of the setting

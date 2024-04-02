@@ -15,12 +15,14 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
      */
     protected List<Settings> settings;
 
-    public void settingsInit(List<Settings> settings) {
+    public NodeWithSettings settingsInit(List<Settings> settings) {
         this.settings = settings;
+        return this;
     }
-    public void setSettingsHandler(SettingsHandler settingsHandler){
+    public NodeWithSettings setSettingsHandler(SettingsHandler settingsHandler){
         this.settingsHandler = settingsHandler;
         this.settingsHandler.init(settings);
+        return this;
     }
     public Settings settingsGet(int index){
         return settingsHandler.getSettings(index);

@@ -32,6 +32,9 @@ public interface Container {
      */
     public void load();
 
+    public Object getGlobalVar(String name);
+    public void setGlobalVar(String name, Object obj);
+
     // Global Variable implementation?
 
 }

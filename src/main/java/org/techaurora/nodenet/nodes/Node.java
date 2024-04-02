@@ -1,5 +1,6 @@
 package org.techaurora.nodenet.nodes;
 
+import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
@@ -13,24 +14,27 @@ import java.util.List;
  *
  */
 public interface Node {
+
+    public Node setContainer(Container container);
+    public Container getContainer();
     /**
      * Set the types of all input for current Node
      * @param inputTypes
      */
-    public void setInputTypes(List<Class<?>> inputTypes);
+    public Node setInputTypes(List<Class<?>> inputTypes);
     /**
      * Set the types of all output for current Node
      * @param outputTypes
      */
-    public void setOutputTypes(List<Class<?>> outputTypes);
+    public Node setOutputTypes(List<Class<?>> outputTypes);
     /**
      * Set the types of all inputValidators for current Node
      * @param inputValidators
      */
-    public void setInputValidators(List<Validator> inputValidators);
+    public Node setInputValidators(List<Validator> inputValidators);
 
-    public void setInputHandler(InputHandler inputHandler);
-    public void setOutputHandler(OutputHandler outputHandler);
+    public Node setInputHandler(InputHandler inputHandler);
+    public Node setOutputHandler(OutputHandler outputHandler);
 
     public Class<?> getInputType(int index) throws IndexOutOfBoundsException;
     public List<Class<?>> getInputTypes();

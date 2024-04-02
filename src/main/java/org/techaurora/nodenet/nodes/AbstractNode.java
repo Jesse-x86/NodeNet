@@ -1,5 +1,6 @@
 package org.techaurora.nodenet.nodes;
 
+import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
@@ -9,38 +10,55 @@ import java.util.List;
 
 public abstract class AbstractNode implements Node {
 
+    protected Container container;
     protected InputHandler inputHandler;
     protected OutputHandler outputHandler;
     protected List<Class<?>> inputTypes;
     protected List<Class<?>> outputTypes;
     protected List<Validator> inputValidators;
 
-    public void setInputTypes(List<Class<?>> inputTypes) {
+    @Override
+    public Node setContainer(Container container) {
+        this.container = container;
+        return this;
+    }
+
+    @Override
+    public Container getContainer() {
+        return container;
+    }
+
+    public Node setInputTypes(List<Class<?>> inputTypes) {
         this.inputTypes = inputTypes;
+        return this;
     }
-    public void setOutputTypes(List<Class<?>> outputTypes) {
+    public Node setOutputTypes(List<Class<?>> outputTypes) {
         this.outputTypes = outputTypes;
+        return this;
     }
-    public void setInputValidators(List<Validator> inputValidators) {
+    public Node setInputValidators(List<Validator> inputValidators) {
         this.inputValidators = inputValidators;
+        return this;
     }
 
     /**
      * @param inputHandler The InputHandler to inject
      */
     @Override
-    public void setInputHandler(InputHandler inputHandler) {
+    public Node setInputHandler(InputHandler inputHandler) {
         this.inputHandler = inputHandler;
         this.inputHandler.init(this);
+        return this;
     }
 
     /**
      * @param outputHandler The OutputHandler to inject
      */
     @Override
-    public void setOutputHandler(OutputHandler outputHandler) {
+    public Node setOutputHandler(OutputHandler outputHandler) {
         this.outputHandler = outputHandler;
         this.outputHandler.init(this);
+        return this;
     }
 
     /**
