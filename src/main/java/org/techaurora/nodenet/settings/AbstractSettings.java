@@ -19,9 +19,7 @@ public abstract class AbstractSettings<T> implements Settings {
 //    }
 
     public boolean setValue(Object value){
-        if(null == validator ||
-                (type.isInstance(value) && validator.validate(value))
-        ){
+        if(validate(value)){
             this.value = type.cast(value);
             return true;
         }
@@ -30,5 +28,11 @@ public abstract class AbstractSettings<T> implements Settings {
 
     public T getValue(){
         return value;
+    }
+
+    @Override
+    public boolean validate(Object value) {
+        return (null == validator ||
+                (type.isInstance(value) && validator.validate(value)));
     }
 }

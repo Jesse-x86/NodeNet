@@ -22,4 +22,10 @@ public interface Settings<T> {
      * @return the Value
      */
     public T getValue();
+
+    /**
+     * validate value, calls the validator if it's not null and given value is valid type
+     * @return true if validate pass, false if not
+     */
+    public boolean validate(Object value);
 }

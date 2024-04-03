@@ -13,7 +13,9 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
         return settingsList.get(index);
     }
     public void setSettings(int index, Settings settings){
-        settingsList.set(index, settings);
+        if(settings.validate(settings.getValue())) {
+            settingsList.set(index, settings);
+        }
     }
 
     public Object getSettingsValue(int index){

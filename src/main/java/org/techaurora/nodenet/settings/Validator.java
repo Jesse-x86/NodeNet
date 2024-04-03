@@ -4,3 +4,5 @@ package org.techaurora.nodenet.settings;
 public interface Validator {
     boolean validate(Object obj);
 }
+
+
