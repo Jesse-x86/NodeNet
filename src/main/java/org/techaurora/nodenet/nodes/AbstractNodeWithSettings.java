@@ -20,7 +20,7 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
         this.settingsHandler = settingsHandler;
         this.settingsHandler.init(this);
         if(settingsHandler.getSettingsMap().size() == 0){
-            this.settingsHandler.setSettings(defaultSettings);
+            this.settingsHandler.setSettingsMap(defaultSettings);
         }
         return this;
     }
@@ -32,5 +32,13 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
     }
     public Settings removeSettings(String settingsID){
         return this.settingsHandler.removeSettings(settingsID);
+    }
+
+
+    public Object getSettingsValue(String settingsID){
+        return this.settingsHandler.getSettingsValue(settingsID);
+    }
+    public void setSettingsValue(String settingsID, Object settingsObj){
+        this.settingsHandler.setSettingsValue(settingsID, settingsObj);
     }
 }

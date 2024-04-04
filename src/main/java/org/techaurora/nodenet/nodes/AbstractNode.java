@@ -82,7 +82,7 @@ public abstract class AbstractNode implements Node {
     }
 
     /**
-     *
+     * if all necessary input are ready, then call proceed function
      */
     @Override
     public void checkAndProceed() {
@@ -91,6 +91,12 @@ public abstract class AbstractNode implements Node {
         }
     }
 
+    /**
+     * You should write your own proceed function for each Node you make,
+     * this by default will only be invoked by checkAndProceed()
+     * thus you can assume you have all input you need in objects
+     * @param objects All the input you need
+     */
     protected abstract void proceed(Map<String, Object> objects);
 
 

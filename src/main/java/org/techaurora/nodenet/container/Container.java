@@ -15,6 +15,14 @@ public interface Container {
      * @param inputID The ID of the input
      */
     public void connect(Node output, String outputID, Node input, String inputID);
+
+    /**
+     * Disconnect an output from an input
+     * @param output The output Node, the Node throws data as output
+     * @param outputID The ID of the output
+     * @param input The input Node, the Node that takes data as input
+     * @param inputID The ID of the input
+     */
     public void disconnect(Node output, String outputID, Node input, String inputID);
 
     /**

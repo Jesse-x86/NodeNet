@@ -20,14 +20,17 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
         return settingsMap;
     }
 
-    public void setSettings(Map<String, Settings> settingsMap){
-        this.settingsMap.putAll(settingsMap);
+    public void setSettingsMap(Map<String, Settings> settingsMap){
+        for (Map.Entry entry : settingsMap.entrySet()) {
+            setSettings((String) entry.getKey(), (Settings) entry.getValue());
+        }
     }
 
     public Settings getSettings(String settingsID){
         return settingsMap.get(settingsID);
     }
     public void setSettings(String settingsID, Settings settings){
+        // only put settings in if settings value makes sense
         if(settings.validate(settings.getValue())) {
             settingsMap.put(settingsID, settings);
         }

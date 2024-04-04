@@ -9,7 +9,7 @@ public interface SettingsHandler {
     public Settings getSettings(String settingsID);
 
     public Map<String, Settings> getSettingsMap();
-    public void setSettings(Map<String, Settings> settingsMap);
+    public void setSettingsMap(Map<String, Settings> settingsMap);
 
     /**
      * update the Settings object for certain
