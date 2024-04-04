@@ -4,9 +4,8 @@ import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
-import org.techaurora.nodenet.utils.OutputRouter;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * The interface of Node, the very basic component of any node network.
@@ -17,41 +16,19 @@ public interface Node {
 
     public Node setContainer(Container container);
     public Container getContainer();
-    /**
-     * Set the types of all input for current Node
-     * @param inputTypes
-     */
-    public Node setInputTypes(List<Class<?>> inputTypes);
-    /**
-     * Set the types of all output for current Node
-     * @param outputTypes
-     */
-    public Node setOutputTypes(List<Class<?>> outputTypes);
-    /**
-     * Set the types of all inputValidators for current Node
-     * @param inputValidators
-     */
-    public Node setInputValidators(List<Validator> inputValidators);
 
     public Node setInputHandler(InputHandler inputHandler);
     public Node setOutputHandler(OutputHandler outputHandler);
 
-    public Class<?> getInputType(int index) throws IndexOutOfBoundsException;
-    public List<Class<?>> getInputTypes();
-    public Class<?> getOutputType(int index) throws IndexOutOfBoundsException;
+    public Class<?> getInputType(String inputID);
+    public Class<?> getOutputType(String inputID);
+    public IOTypeValidateObject getInputValidateObj(String inputID);
+    public IOTypeValidateObject getOutputValidateObj(String outputID);
+    public Map<String, IOTypeValidateObject> getInputValidateObjs();
+    public Map<String, IOTypeValidateObject> getOutputValidateObjs();
 
 
-    /**
-     * @return A list of the type of outputs, index corresponding to the output index
-     */
-    public List<Class<?>> getOutputTypes();
-
-    public Validator getInputValidator(int index) throws IndexOutOfBoundsException;
-
-    public List<Validator> getInputValidators();
-
-
-    public void input(int index, Object obj, boolean isPersistent);
+    public void input(String inputID, Object obj, boolean isPersistent);
 
     /**
      * Check whether the input is ready. If input is ready, then proceed.
@@ -60,16 +37,53 @@ public interface Node {
 
     /**
      * Connect current node's output to some node's input
-     * @param index the output index
+     * @param outputID the output ID
      * @param target the target node
-     * @param targetIndex the target node's input index
+     * @param inputID the target node's input ID
      */
-    public void connect(int index, Node target, int targetIndex);
+    public boolean connect(String outputID, Node target, String inputID);
     /**
      * Disconnect current node's output to some node's input
-     * @param index the output index
+     * @param outputID the output ID
      * @param target the target node
-     * @param targetIndex the target node's input index
+     * @param inputID the target node's input ID
      */
-    public void disconnect(int index, Node target, int targetIndex);
+    public boolean disconnect(String outputID, Node target, String inputID);
+
+    public class IOTypeValidateObject {
+        public String ID;
+        public Class<?> type;
+        public Validator validator;
+        public IOTypeValidateObject(String ID, Class<?> type, Validator validator){
+            this.ID = ID;
+            this.type = type;
+            this.validator = validator;
+        }
+
+        public boolean validate(Object obj){
+            // if type is null or obj is qualified type, proceed
+            // otherwise, return false
+            if(null == type
+                    || type.isAssignableFrom(obj.getClass())
+            ){
+                // if Validator exist, use validator
+                // otherwise, return true
+                if (validator != null) {
+                    return validator.validate(obj, type);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(IOTypeValidateObject.class.isInstance(obj)){
+                return ID.equals(((IOTypeValidateObject) obj).ID)
+                        && type.equals(((IOTypeValidateObject) obj).type)
+                        && validator.equals(((IOTypeValidateObject) obj).validator);
+            }
+            return super.equals(obj);
+        }
+    }
 }

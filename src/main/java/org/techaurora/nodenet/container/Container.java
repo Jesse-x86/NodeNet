@@ -10,12 +10,12 @@ public interface Container {
     /**
      * Connect an output to an input
      * @param output The output Node, the Node throws data as output
-     * @param outputIndex The index of the output
+     * @param outputID The ID of the output
      * @param input The input Node, the Node that takes data as input
-     * @param inputIndex The index of the input
+     * @param inputID The ID of the input
      */
-    public void connect(Node output, int outputIndex, Node input, int inputIndex);
-    public void disconnect(Node output, int outputIndex, Node input, int inputIndex);
+    public void connect(Node output, String outputID, Node input, String inputID);
+    public void disconnect(Node output, String outputID, Node input, String inputID);
 
     /**
      * Start all nodes within the container (would still skip those who requires data to launch)

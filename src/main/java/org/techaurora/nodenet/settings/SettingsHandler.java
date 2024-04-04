@@ -1,12 +1,24 @@
 package org.techaurora.nodenet.settings;
 
-import java.util.List;
+import org.techaurora.nodenet.nodes.Node;
+
+import java.util.Map;
 
 public interface SettingsHandler {
-    public void init(List<Settings> settings);
-    public Settings getSettings(int index);
-    public void setSettings(int index, Settings settings);
+    public void init(Node node);
+    public Settings getSettings(String settingsID);
 
-    public Object getSettingsValue(int index);
-    public void setSettingsValue(int index, Object value);
+    public Map<String, Settings> getSettingsMap();
+    public void setSettings(Map<String, Settings> settingsMap);
+
+    /**
+     * update the Settings object for certain
+     * @param settingsID
+     * @param settings
+     */
+    public void setSettings(String settingsID, Settings settings);
+    public Settings removeSettings(String index);
+
+    public Object getSettingsValue(String settingsID);
+    public void setSettingsValue(String settingsID, Object value);
 }

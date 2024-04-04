@@ -4,6 +4,7 @@ import org.techaurora.nodenet.settings.Settings;
 import org.techaurora.nodenet.settings.SettingsHandler;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractNodeWithSettings extends AbstractNode implements NodeWithSettings{
     protected SettingsHandler settingsHandler;
@@ -13,21 +14,23 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
      * If you don't initialize the settings list, you probably don't need to extend this Node
      * , try to extend AbstractNode instead.
      */
-    protected List<Settings> settings;
+    protected Map<String, Settings> defaultSettings;
 
-    public NodeWithSettings settingsInit(List<Settings> settings) {
-        this.settings = settings;
-        return this;
-    }
     public NodeWithSettings setSettingsHandler(SettingsHandler settingsHandler){
         this.settingsHandler = settingsHandler;
-        this.settingsHandler.init(settings);
+        this.settingsHandler.init(this);
+        if(settingsHandler.getSettingsMap().size() == 0){
+            this.settingsHandler.setSettings(defaultSettings);
+        }
         return this;
     }
-    public Settings settingsGet(int index){
-        return settingsHandler.getSettings(index);
+    public Settings getSettings(String settingsID){
+        return settingsHandler.getSettings(settingsID);
     }
-    public void settingsSet(int index, Settings settings){
-        settingsHandler.setSettingsValue(index, settings);
+    public void setSettings(String settingsID, Settings settings){
+        settingsHandler.setSettingsValue(settingsID, settings);
+    }
+    public Settings removeSettings(String settingsID){
+        return this.settingsHandler.removeSettings(settingsID);
     }
 }

@@ -1,27 +1,46 @@
 package org.techaurora.nodenet.settings;
 
-import java.util.List;
+import org.techaurora.nodenet.nodes.Node;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractSettingsHandler implements SettingsHandler{
-    List<Settings> settingsList;
+    Node node;
+    Map<String, Settings> settingsMap;
 
-    public void init(List<Settings> settingsList){
-        this.settingsList = settingsList;
-    }
-
-    public Settings getSettings(int index){
-        return settingsList.get(index);
-    }
-    public void setSettings(int index, Settings settings){
-        if(settings.validate(settings.getValue())) {
-            settingsList.set(index, settings);
+    public void init(Node node){
+        this.node = node;
+        if(settingsMap == null) {
+            this.settingsMap = new HashMap<>();
         }
     }
 
-    public Object getSettingsValue(int index){
-        return settingsList.get(index).getValue();
+    public Map<String, Settings> getSettingsMap(){
+        return settingsMap;
     }
-    public void setSettingsValue(int index, Object value){
-        settingsList.get(index).setValue(value);
+
+    public void setSettings(Map<String, Settings> settingsMap){
+        this.settingsMap.putAll(settingsMap);
+    }
+
+    public Settings getSettings(String settingsID){
+        return settingsMap.get(settingsID);
+    }
+    public void setSettings(String settingsID, Settings settings){
+        if(settings.validate(settings.getValue())) {
+            settingsMap.put(settingsID, settings);
+        }
+    }
+
+    public Settings removeSettings(String index){
+        return settingsMap.remove(index);
+    }
+
+    public Object getSettingsValue(String settingsID){
+        return settingsMap.get(settingsID).getValue();
+    }
+    public void setSettingsValue(String settingsID, Object value){
+        settingsMap.get(settingsID).setValue(value);
     }
 }

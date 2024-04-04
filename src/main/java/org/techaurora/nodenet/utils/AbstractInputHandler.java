@@ -3,76 +3,58 @@ package org.techaurora.nodenet.utils;
 import org.techaurora.nodenet.nodes.Node;
 import org.techaurora.nodenet.settings.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class AbstractInputHandler implements InputHandler {
     protected Node node;
-    protected List<Object> cache;
-    protected List<Boolean> isPersistent;
-
-
-    public AbstractInputHandler(){
-
-    }
+    protected Map<String, InputStorageObject> cache;
 
     @Override
     public void init(Node node){
         this.node = node;
-        cache = new ArrayList<>();
-        isPersistent = new ArrayList<>();
-        for(int i = 0; i < this.node.getInputTypes().size(); i++) {
-            cache.add(null);
-            isPersistent.add(false);
-        }
+        if(null == cache)
+            cache = new HashMap<>();
     }
 
-//    public void input(int index, Object input){
-//        input(index, input, false);
-//    }
-
     @Override
-    public void input(int index, Object input, boolean isPersistent){
-        if(null == input || node.getInputType(index).isInstance(input)) {
-            cache.set(index, input);
-            this.isPersistent.set(index, isPersistent);
+    public void input(String inputID, Object inputObj, boolean isPersistent){
+        if(null == inputObj || node.getInputType(inputID).isInstance(inputObj)) {
+            cache.put(inputID, new InputStorageObject(inputObj, isPersistent));
         } else{
-            throw new IllegalArgumentException("Illegal Input. Demand " + node.getInputType(index).getName() + ", got " + input.getClass().getName());
+//            throw new IllegalArgumentException("Illegal Input. Demand " + node.getInputType(index).getName() + ", got " + input.getClass().getName());
         }
     }
 
     @Override
-    public boolean isAvaliable(){
-        List<Validator> validators = node.getInputValidators();
-        for(int i = 0; i < cache.size(); i++){
-            if((null != validators.get(i) && !validators.get(i).validate(cache.get(i)))
-                            || (null == validators.get(i) && null == cache.get(i))){
-                return false;
-            }
+    public boolean isAvailable(){
+        Map<String, Node.IOTypeValidateObject> validators = node.getInputValidateObjs();
+        // if any didn't pass validation, this is not available, otherwise this is
+        for(String s : validators.keySet()){
+            if(!validators.get(s).validate(cache.get(s).object)) return false;
         }
         return true;
     }
 
     @Override
-    public List<Object> provide(){
-        List<Object> _c = new ArrayList<>();
-        for(int i = 0; i < cache.size(); i++){
-            _c.add(cache.get(i));
-            if(!isPersistent.get(i)){
-                cache.set(i, null);
+    public Map<String, Object> provide(){
+        Map<String, Object> objectMap = new HashMap<>();
+        for(String s: cache.keySet()){
+            var _c = cache.get(s);
+            objectMap.put(s, _c.object);
+            if(!_c.isPersistent){
+                cache.remove(s);
             }
         }
-        return _c;
+        return objectMap;
     }
+
     @Override
-    public List<Object> provideCopy(){
-        return List.copyOf(cache);
-    }
-    @Override
-    public List<Object> provideAndEmpty(){
-        List<Object> _c = cache;
-        init(node);
-        return _c;
+    public Map<String, Object> provideAndEmpty(){
+        try{
+            return provide();
+        } finally {
+            cache.clear();
+        }
     }
 
 }

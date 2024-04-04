@@ -17,13 +17,13 @@ public abstract class AbstractContainer implements Container {
     }
 
     @Override
-    public void connect(Node output, int outputIndex, Node input, int inputIndex) {
-        output.connect(outputIndex, input, inputIndex);
+    public void connect(Node output, String outputID, Node input, String inputID) {
+        output.connect(outputID, input, inputID);
     }
 
     @Override
-    public void disconnect(Node output, int outputIndex, Node input, int inputIndex) {
-        output.disconnect(outputIndex, input, inputIndex);
+    public void disconnect(Node output, String outputID, Node input, String inputID) {
+        output.disconnect(outputID, input, inputID);
     }
 
     @Override

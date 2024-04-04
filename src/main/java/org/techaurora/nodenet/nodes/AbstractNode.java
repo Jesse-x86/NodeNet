@@ -1,21 +1,18 @@
 package org.techaurora.nodenet.nodes;
 
 import org.techaurora.nodenet.container.Container;
-import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
-import org.techaurora.nodenet.utils.OutputRouter;
 
-import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractNode implements Node {
 
     protected Container container;
     protected InputHandler inputHandler;
     protected OutputHandler outputHandler;
-    protected List<Class<?>> inputTypes;
-    protected List<Class<?>> outputTypes;
-    protected List<Validator> inputValidators;
+    protected Map<String, IOTypeValidateObject> inputTypes;
+    protected Map<String, IOTypeValidateObject> outputTypes;
 
     @Override
     public Node setContainer(Container container) {
@@ -26,19 +23,6 @@ public abstract class AbstractNode implements Node {
     @Override
     public Container getContainer() {
         return container;
-    }
-
-    public Node setInputTypes(List<Class<?>> inputTypes) {
-        this.inputTypes = inputTypes;
-        return this;
-    }
-    public Node setOutputTypes(List<Class<?>> outputTypes) {
-        this.outputTypes = outputTypes;
-        return this;
-    }
-    public Node setInputValidators(List<Validator> inputValidators) {
-        this.inputValidators = inputValidators;
-        return this;
     }
 
     /**
@@ -61,59 +45,40 @@ public abstract class AbstractNode implements Node {
         return this;
     }
 
-    /**
-     * @param index the index (0-indexed) of input types
-     * @return input type at given index
-     */
     @Override
-    public Class<?> getInputType(int index) throws IndexOutOfBoundsException{
-        return inputTypes.get(index);
+    public Class<?> getInputType(String inputID){
+        return getInputValidateObj(inputID).type;
+    }
+    @Override
+    public Class<?> getOutputType(String outputID){
+        return getOutputValidateObj(outputID).type;
     }
 
-    /**
-     * @return all input types
-     */
+    public IOTypeValidateObject getInputValidateObj(String inputID){
+        return inputTypes.get(inputID);
+    }
+    public IOTypeValidateObject getOutputValidateObj(String outputID){
+        return outputTypes.get(outputID);
+    }
+
     @Override
-    public List<Class<?>> getInputTypes() {
+    public Map<String, IOTypeValidateObject> getInputValidateObjs() {
         return inputTypes;
     }
 
-    /**
-     * @param index
-     * @return
-     */
     @Override
-    public Class<?> getOutputType(int index) throws IndexOutOfBoundsException{
-        return outputTypes.get(index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<Class<?>> getOutputTypes() {
+    public Map<String, IOTypeValidateObject> getOutputValidateObjs() {
         return outputTypes;
     }
-    public Validator getInputValidator(int index) throws IndexOutOfBoundsException{
-        return inputValidators.get(index);
-    }
-    public List<Validator> getInputValidators(){
-        return inputValidators;
-    }
 
     /**
-     * @param index the index of the objected to be inputed into
+     * @param inputID the ID of the object "slot" to be input-ed into
      * @param obj The object to be input-ed. Wrong type of input cause no error but triggers no input and checkAndProceed()
      * @param isPersistent Whether this input should be saved after calling provide() function,true = save, false = not save, false by default
      */
     @Override
-    public void input(int index, Object obj, boolean isPersistent) {
-        try {
-            inputHandler.input(index, obj, isPersistent);
-            checkAndProceed();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void input(String inputID, Object obj, boolean isPersistent) {
+        inputHandler.input(inputID, obj, isPersistent);
     }
 
     /**
@@ -121,18 +86,20 @@ public abstract class AbstractNode implements Node {
      */
     @Override
     public void checkAndProceed() {
-        if(inputHandler.isAvaliable()){
+        if(inputHandler.isAvailable()){
             proceed(inputHandler.provide());
         }
     }
 
-    protected abstract void proceed(List<Object> objects);
+    protected abstract void proceed(Map<String, Object> objects);
 
 
-    public void connect(int index, Node target, int targetIndex){
-        outputHandler.connect(index, new OutputRouter(targetIndex, target));
+    public boolean connect(String outputID, Node target, String inputID){
+        if(outputHandler == null) return false;
+        return outputHandler.connect(outputID, target, inputID);
     }
-    public void disconnect(int index, Node target, int targetIndex){
-        outputHandler.disconnect(index, new OutputRouter(targetIndex, target));
+    public boolean disconnect(String outputID, Node target, String inputID){
+        if(outputHandler == null) return false;
+        return outputHandler.disconnect(outputID, target, inputID);
     }
 }
