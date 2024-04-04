@@ -16,6 +16,7 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
      */
     protected Map<String, Settings> defaultSettings;
 
+    @Override
     public NodeWithSettings setSettingsHandler(SettingsHandler settingsHandler){
         this.settingsHandler = settingsHandler;
         this.settingsHandler.init(this);
@@ -24,20 +25,24 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
         }
         return this;
     }
+    @Override
     public Settings getSettings(String settingsID){
         return settingsHandler.getSettings(settingsID);
     }
-    public void setSettings(String settingsID, Settings settings){
-        settingsHandler.setSettingsValue(settingsID, settings);
+    @Override
+    public void setSettings(Settings settings){
+        this.settingsHandler.setSettings(settings);
     }
+    @Override
     public Settings removeSettings(String settingsID){
         return this.settingsHandler.removeSettings(settingsID);
     }
 
-
+    @Override
     public Object getSettingsValue(String settingsID){
         return this.settingsHandler.getSettingsValue(settingsID);
     }
+    @Override
     public void setSettingsValue(String settingsID, Object settingsObj){
         this.settingsHandler.setSettingsValue(settingsID, settingsObj);
     }

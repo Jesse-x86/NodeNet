@@ -1,6 +1,6 @@
 package org.techaurora.nodenet.settings;
 
-public interface Settings<T> {
+public interface Settings {
     /**
      * Initialize the settings
      * @param name Name of the setting, will be displayed on front end
@@ -8,7 +8,8 @@ public interface Settings<T> {
      * @param value Default value of the setting, can be null
      * @param validator Validator of the setting, can be null
      */
-    public Settings init(String name, Class<T> type, T value, Validator validator);
+    public Settings init(String name, Class<?> type, Object value, Validator validator);
+    public String getName();
 
     /**
      * Update the value of the setting
@@ -21,7 +22,7 @@ public interface Settings<T> {
      * Get the value of the setting
      * @return the Value
      */
-    public T getValue();
+    public Object getValue();
 
     /**
      * validate value, calls the validator if it's not null and given value is valid type

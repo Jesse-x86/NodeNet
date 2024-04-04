@@ -14,11 +14,14 @@ import java.util.Map;
  */
 public interface Node {
 
+
+
     public Node setContainer(Container container);
     public Container getContainer();
-
     public Node setInputHandler(InputHandler inputHandler);
     public Node setOutputHandler(OutputHandler outputHandler);
+
+    public Node setIOValidateObj(Map<String, IOTypeValidateObject> map, String ID, Class<?> type, Validator validator);
 
     public Class<?> getInputType(String inputID);
     public Class<?> getOutputType(String inputID);
@@ -64,14 +67,15 @@ public interface Node {
             // if type is null or obj is qualified type, proceed
             // otherwise, return false
             if(null == type
-                    || type.isAssignableFrom(obj.getClass())
+                    || null == obj
+                    || type.isInstance(obj)
             ){
                 // if Validator exist, use validator
-                // otherwise, return true
+                // otherwise, return apply default
                 if (validator != null) {
-                    return validator.validate(obj, type);
+                    return validator.validate(obj);
                 }
-                return true;
+                return new Validator.NotNull().validate(obj);
             }
             return false;
         }

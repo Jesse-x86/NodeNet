@@ -1,12 +1,13 @@
 package org.techaurora.nodenet.settings;
 
-public abstract class AbstractSettings<T> implements Settings {
+public abstract class AbstractSettings implements Settings {
     protected String name;
-    protected T value;
+    protected Object value;
     protected Validator validator;
-    protected Class<T> type;
+    protected Class<?> type;
 
-    public Settings init(String name, Class type, Object value, Validator validator){
+    @Override
+    public Settings init(String name, Class<?> type, Object value, Validator validator){
         this.name = name;
         this.type = type;
         this.validator = validator;
@@ -14,6 +15,12 @@ public abstract class AbstractSettings<T> implements Settings {
         return this;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public boolean setValue(Object value){
         if(validate(value)){
             this.value = type.cast(value);
@@ -22,14 +29,26 @@ public abstract class AbstractSettings<T> implements Settings {
         return false;
     }
 
-    public T getValue(){
+    @Override
+    public Object getValue(){
         return value;
     }
 
     @Override
     public boolean validate(Object value) {
-        return (null == validator ||
-                (type.isInstance(value)
-                        && validator.validate(value, type)));
+        // if type is null or obj is qualified type, proceed
+        // otherwise, return false
+        if(null == type
+                || null == value
+                || type.isInstance(value)
+        ){
+            // if Validator exist, use validator
+            // otherwise, return apply default
+            if (validator != null) {
+                return validator.validate(value);
+            }
+            return new Validator.NotNull().validate(value);
+        }
+        return false;
     }
 }

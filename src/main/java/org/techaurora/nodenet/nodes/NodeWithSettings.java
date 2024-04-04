@@ -17,7 +17,7 @@ public interface NodeWithSettings extends Node{
      * @return
      */
     public Settings getSettings(String settingsID);
-    public void setSettings(String settingsID, Settings settings);
+    public void setSettings(Settings settings);
     public Settings removeSettings(String settingsID);
 
     public Object getSettingsValue(String settingsID);

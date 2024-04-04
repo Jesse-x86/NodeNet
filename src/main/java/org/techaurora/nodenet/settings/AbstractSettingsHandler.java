@@ -9,6 +9,7 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
     Node node;
     Map<String, Settings> settingsMap;
 
+    @Override
     public void init(Node node){
         this.node = node;
         if(settingsMap == null) {
@@ -16,34 +17,48 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
         }
     }
 
+    @Override
     public Map<String, Settings> getSettingsMap(){
         return settingsMap;
     }
 
+    @Override
     public void setSettingsMap(Map<String, Settings> settingsMap){
-        for (Map.Entry entry : settingsMap.entrySet()) {
-            setSettings((String) entry.getKey(), (Settings) entry.getValue());
+        for (Settings settings : settingsMap.values()) {
+            setSettings(settings);
         }
     }
 
+    @Override
     public Settings getSettings(String settingsID){
         return settingsMap.get(settingsID);
     }
-    public void setSettings(String settingsID, Settings settings){
+    @Override
+    public void setSettings(Settings settings){
         // only put settings in if settings value makes sense
         if(settings.validate(settings.getValue())) {
-            settingsMap.put(settingsID, settings);
+            settingsMap.put(settings.getName(), settings);
         }
     }
-
-    public Settings removeSettings(String index){
-        return settingsMap.remove(index);
+    @Override
+    public boolean hasSettings(String settingsID) {
+        return settingsMap.containsKey(settingsID);
     }
-
-    public Object getSettingsValue(String settingsID){
-        return settingsMap.get(settingsID).getValue();
+    @Override
+    public Settings removeSettings(String settingsID){
+        return settingsMap.remove(settingsID);
     }
+    @Override
+    public Object getSettingsValue(String settingsID) {
+        var settings = settingsMap.get(settingsID);
+        if(null == settings) return null;
+        return settings.getValue();
+    }
+    @Override
     public void setSettingsValue(String settingsID, Object value){
-        settingsMap.get(settingsID).setValue(value);
+        var settings = settingsMap.get(settingsID);
+        if(null != settings && settings.validate(value)) {
+            settings.setValue(value);
+        }
     }
 }

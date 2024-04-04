@@ -1,6 +1,7 @@
 package org.techaurora.nodenet.nodes;
 
 import org.techaurora.nodenet.container.Container;
+import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
 
@@ -46,6 +47,12 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
+    public Node setIOValidateObj(Map<String, IOTypeValidateObject> map, String ID, Class<?> type, Validator validator){
+        map.put(ID, new IOTypeValidateObject(ID, type, validator));
+        return this;
+    }
+
+    @Override
     public Class<?> getInputType(String inputID){
         return getInputValidateObj(inputID).type;
     }
@@ -53,10 +60,11 @@ public abstract class AbstractNode implements Node {
     public Class<?> getOutputType(String outputID){
         return getOutputValidateObj(outputID).type;
     }
-
+    @Override
     public IOTypeValidateObject getInputValidateObj(String inputID){
         return inputTypes.get(inputID);
     }
+    @Override
     public IOTypeValidateObject getOutputValidateObj(String outputID){
         return outputTypes.get(outputID);
     }
