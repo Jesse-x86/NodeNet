@@ -30,21 +30,31 @@ public abstract class AbstractInputHandler implements InputHandler {
         Map<String, Node.IOTypeValidateObject> validators = node.getInputValidateObjs();
         // if any didn't pass validation, this is not available, otherwise this is
         for(String s : validators.keySet()){
-            if(!validators.get(s).validate(cache.get(s).object)) return false;
+            // if cache's input "s" is null then check if null is okay
+            InputStorageObject inputStorageObject = cache.get(s);
+            Object obj = inputStorageObject == null ? null : inputStorageObject.object;
+            if(!validators.get(s).validate(obj)) return false;
         }
         return true;
     }
 
     @Override
     public Map<String, Object> provide(){
+        // return a new map
         Map<String, Object> objectMap = new HashMap<>();
-        for(String s: cache.keySet()){
-            var _c = cache.get(s);
-            objectMap.put(s, _c.object);
-            if(!_c.isPersistent){
-                cache.remove(s);
+        // store keys to delete so we don't mess sets up
+        ArrayDeque<String> toDel = new ArrayDeque<>();
+
+        for(Map.Entry<String, InputStorageObject> entry : cache.entrySet()){
+
+            objectMap.put(entry.getKey(), entry.getValue().object);
+
+            if(!entry.getValue().isPersistent){
+                toDel.add(entry.getKey());
             }
         }
+        // remove non-persistent inputs
+        for(String s : toDel) cache.remove(s);
         return objectMap;
     }
 

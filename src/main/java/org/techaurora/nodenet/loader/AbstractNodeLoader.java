@@ -15,6 +15,7 @@ import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -49,7 +50,6 @@ public abstract class AbstractNodeLoader implements NodeLoader {
 
     /**
      * @param dir
-     * @return
      */
     @Override
     public void loadFromFolder(String dir) throws IOException {
@@ -74,12 +74,13 @@ public abstract class AbstractNodeLoader implements NodeLoader {
             settingsHandlers = new HashMap<>();
         }
         File path = new File(dir);
-        for(File file : path.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                return  (depth > 0 && pathname.isDirectory()) || (pathname.isFile() && pathname.getName().toLowerCase().endsWith(".jar"));
-            }
-        })){
+        for(File file : Objects.requireNonNull(
+                path.listFiles(pathname ->
+                        (depth > 0 && pathname.isDirectory())
+                                || (pathname.isFile()
+                                && pathname.getName().toLowerCase().endsWith(".jar"))
+                ))
+        ){
             if(file.isFile()){
                 loadJarFile(file);
             } else if(file.isDirectory()){
@@ -89,33 +90,31 @@ public abstract class AbstractNodeLoader implements NodeLoader {
     }
 
     protected void loadJarFile(File jarFile) throws IOException {
-        URLClassLoader classLoader = new URLClassLoader(new URL[]{jarFile.toURI().toURL()});
-        JarFile jar = new JarFile(jarFile);
-        try{
+        try (URLClassLoader classLoader = new URLClassLoader(new URL[]{jarFile.toURI().toURL()}); JarFile jar = new JarFile(jarFile)) {
             Enumeration<JarEntry> entries = jar.entries();
-            while(entries.hasMoreElements()){
+            while (entries.hasMoreElements()) {
                 JarEntry entry = entries.nextElement();
-                if(!entry.isDirectory() && entry.getName().toLowerCase().endsWith(".class")){
-                    String className = entry.getName().replace("/",".").replace(".class","");
+                if (!entry.isDirectory() && entry.getName().toLowerCase().endsWith(".class")) {
+                    String className = entry.getName().replace("/", ".").replace(".class", "");
                     Class<?> clazz = classLoader.loadClass(className);
-                    if(clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())){
+                    if (clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())) {
                         continue;
                     }
                     allModClasses.put(className, clazz);
-                    if(Node.class.isAssignableFrom(clazz)){
+                    if (Node.class.isAssignableFrom(clazz)) {
                         nodes.put(className, (Class<? extends Node>) clazz);
                     }
-                    if(InputHandler.class.isAssignableFrom(clazz)){
+                    if (InputHandler.class.isAssignableFrom(clazz)) {
                         inputHandlers.put(className, (Class<? extends InputHandler>) clazz);
                     }
-                    if(OutputHandler.class.isAssignableFrom(clazz)){
+                    if (OutputHandler.class.isAssignableFrom(clazz)) {
                         outputHandlers.put(className, (Class<? extends OutputHandler>) clazz);
                     }
-                    if(SettingsHandler.class.isAssignableFrom(clazz)){
+                    if (SettingsHandler.class.isAssignableFrom(clazz)) {
                         settingsHandlers.put(className, (Class<? extends SettingsHandler>) clazz);
                     }
-                    if(Settings.class.isAssignableFrom(clazz)){
-
+                    if (Settings.class.isAssignableFrom(clazz)) {
+                        settings.put(className, (Class<? extends Settings>) clazz);
                     }
                 }
             }
@@ -124,13 +123,6 @@ public abstract class AbstractNodeLoader implements NodeLoader {
             System.err.println("Mod file \"" + jarFile.getName() + "\" cannot be load properly, contact Mod creator with these information:");
             System.err.println(e.getLocalizedMessage());
             System.err.println("Trying to proceed...");
-        } finally {
-            if(classLoader != null) {
-                classLoader.close();
-            }
-            if(jar != null) {
-                jar.close();
-            }
         }
     }
 }

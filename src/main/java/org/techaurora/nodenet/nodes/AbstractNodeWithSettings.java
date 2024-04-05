@@ -27,10 +27,12 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
     }
     @Override
     public Settings getSettings(String settingsID){
+        if(settingsHandler == null) return null;
         return settingsHandler.getSettings(settingsID);
     }
     @Override
     public void setSettings(Settings settings){
+
         this.settingsHandler.setSettings(settings);
     }
     @Override
