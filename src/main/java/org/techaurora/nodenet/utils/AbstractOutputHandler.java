@@ -34,7 +34,9 @@ public abstract class AbstractOutputHandler implements OutputHandler{
         // find list and insert RouterObject
         List<OutputRouterObject> _cache = outputRouters.get(outputID);
         if(null == _cache){
-            outputRouters.put(outputID, Arrays.asList(target));
+            _cache = new ArrayList<>();
+            _cache.add(target);
+            outputRouters.put(outputID, _cache);
         } else if(!_cache.contains(target)){
             _cache.add(target);
         }
