@@ -81,9 +81,23 @@ public class ArrayStorage<K extends Integer, V extends DataWithID>  extends Abst
         throw new IllegalArgumentException();
     }
 
+    public V add(V value){
+        if(deque.isEmpty()){
+            value.setID(list.size());
+            list.add(value);
+        } else {
+            value.setID(deque.removeFirst());
+            list.set((int) value.getID(),value);
+        }
+        size++;
+        return value;
+    }
+
     @Override
+    @Deprecated
     public V put(K key, V value) {
         if(Integer.class.isInstance(key)) {
+            value.setID(key);
             if((int) key < list.size()){
                 // get value to return
                 V val = list.get((int) key);
@@ -106,7 +120,7 @@ public class ArrayStorage<K extends Integer, V extends DataWithID>  extends Abst
                     list.add(null);
                     deque.add(i);
                 }
-                //
+                // insert value and expand size
                 list.add(value);
                 size++;
                 return null;
@@ -118,38 +132,44 @@ public class ArrayStorage<K extends Integer, V extends DataWithID>  extends Abst
     @Override
     public V remove(Object key) {
         if(Integer.class.isInstance(key)) {
-            V value = list.remove((int) key);
+            V value = list.get((int) key);
             if(null != value){
+                size--;
                 deque.addLast((int) key);
+                list.set((int) key, null);
             }
-            list.set((int) key, null);
             return value;
         }
         return null;
     }
 
     @Override
-    public void putAll(Map m) {
-
+    public void putAll(Map<? extends K, ? extends V> m) {
+        for(Entry<? extends K, ? extends V> entry : m.entrySet()){
+            put(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override
     public void clear() {
-
+        list = new ArrayList<>();
+        deque = new ArrayDeque<>();
+        size = 0;
     }
 
     @Override
-    public Set keySet() {
+    public Set<K> keySet() {
+        Set<K> s = new HashSet<>();
         return null;
     }
 
     @Override
-    public Collection values() {
-        return null;
+    public Collection<V> values() {
+        return list;
     }
 
     @Override
-    public Set<Entry> entrySet() {
+    public Set<Entry<K,V>> entrySet() {
         return null;
     }
 
@@ -164,7 +184,7 @@ public class ArrayStorage<K extends Integer, V extends DataWithID>  extends Abst
     }
 
     @Override
-    public Object getOrDefault(Object key, Object defaultValue) {
+    public V getOrDefault(Object key, V defaultValue) {
         return Map.super.getOrDefault(key, defaultValue);
     }
 
@@ -186,35 +206,5 @@ public class ArrayStorage<K extends Integer, V extends DataWithID>  extends Abst
     @Override
     public boolean remove(Object key, Object value) {
         return Map.super.remove(key, value);
-    }
-
-    @Override
-    public boolean replace(Object key, Object oldValue, Object newValue) {
-        return Map.super.replace(key, oldValue, newValue);
-    }
-
-    @Override
-    public Object replace(Object key, Object value) {
-        return Map.super.replace(key, value);
-    }
-
-    @Override
-    public Object computeIfAbsent(Object key, Function mappingFunction) {
-        return Map.super.computeIfAbsent(key, mappingFunction);
-    }
-
-    @Override
-    public Object computeIfPresent(Object key, BiFunction remappingFunction) {
-        return Map.super.computeIfPresent(key, remappingFunction);
-    }
-
-    @Override
-    public Object compute(Object key, BiFunction remappingFunction) {
-        return Map.super.compute(key, remappingFunction);
-    }
-
-    @Override
-    public Object merge(Object key, Object value, BiFunction remappingFunction) {
-        return Map.super.merge(key, value, remappingFunction);
     }
 }
