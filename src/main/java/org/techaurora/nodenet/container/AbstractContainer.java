@@ -10,6 +10,8 @@ import java.util.Set;
 public abstract class AbstractContainer implements Container {
     Set<Node> nodes;
     Map<String, Object> globalVars;
+    Map<String, Node> nodeMap;
+
 
     public AbstractContainer(){
         nodes = new HashSet<>();

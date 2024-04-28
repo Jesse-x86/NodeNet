@@ -5,9 +5,9 @@ import org.techaurora.nodenet.nodes.Node;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractSettingsHandler implements SettingsHandler{
+public abstract class AbstractSettingsHandler implements ISettingsHandler {
     Node node;
-    Map<String, Settings> settingsMap;
+    Map<String, ISettings> settingsMap;
 
     @Override
     public void init(Node node){
@@ -18,23 +18,23 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
     }
 
     @Override
-    public Map<String, Settings> getSettingsMap(){
+    public Map<String, ISettings> getSettingsMap(){
         return settingsMap;
     }
 
     @Override
-    public void setSettingsMap(Map<String, Settings> settingsMap){
-        for (Settings settings : settingsMap.values()) {
+    public void setSettingsMap(Map<String, ISettings> settingsMap){
+        for (ISettings settings : settingsMap.values()) {
             setSettings(settings);
         }
     }
 
     @Override
-    public Settings getSettings(String settingsID){
+    public ISettings getSettings(String settingsID){
         return settingsMap.get(settingsID);
     }
     @Override
-    public void setSettings(Settings settings){
+    public void setSettings(ISettings settings){
         // only put settings in if settings value makes sense
         if(settings.validate(settings.getValue())) {
             settingsMap.put(settings.getName(), settings);
@@ -45,7 +45,7 @@ public abstract class AbstractSettingsHandler implements SettingsHandler{
         return settingsMap.containsKey(settingsID);
     }
     @Override
-    public Settings removeSettings(String settingsID){
+    public ISettings removeSettings(String settingsID){
         return settingsMap.remove(settingsID);
     }
     @Override

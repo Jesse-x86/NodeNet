@@ -4,7 +4,7 @@ import org.techaurora.nodenet.nodes.Node;
 
 import java.util.*;
 
-public abstract class AbstractOutputHandler implements OutputHandler{
+public abstract class AbstractOutputHandler implements IOutputHandler {
     protected Node node;
     protected Map<String, List<OutputRouterObject>> outputRouters;
 
@@ -17,7 +17,7 @@ public abstract class AbstractOutputHandler implements OutputHandler{
     }
 
     @Override
-    public void init(OutputHandler outputHandler) {
+    public void init(IOutputHandler outputHandler) {
         this.outputRouters = outputHandler.getOutputRouters();
         init(outputHandler.getNode());
     }

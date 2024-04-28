@@ -1,13 +1,13 @@
 package org.techaurora.nodenet.factory;
 
-import org.techaurora.nodenet.settings.Settings;
+import org.techaurora.nodenet.settings.ISettings;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsFactory implements Factory{
-    Map<String, Class<? extends Settings>> data;
+    Map<String, Class<? extends ISettings>> data;
 
     @Override
     public void init(Map<String, Class<?>> classSet) {
@@ -17,14 +17,14 @@ public class SettingsFactory implements Factory{
             if(clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())){
                 continue;
             }
-            if(Settings.class.isAssignableFrom(clazz)){
-                data.put(k, clazz.asSubclass(Settings.class));
+            if(ISettings.class.isAssignableFrom(clazz)){
+                data.put(k, clazz.asSubclass(ISettings.class));
             }
         }
     }
 
     @Override
-    public Settings build(String className) {
+    public ISettings build(String className) {
         if(data.get(className) == null) return null;
         try {
             return data.get(className).getConstructor().newInstance();

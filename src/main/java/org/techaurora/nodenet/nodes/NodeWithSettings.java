@@ -1,7 +1,7 @@
 package org.techaurora.nodenet.nodes;
 
-import org.techaurora.nodenet.settings.Settings;
-import org.techaurora.nodenet.settings.SettingsHandler;
+import org.techaurora.nodenet.settings.ISettings;
+import org.techaurora.nodenet.settings.ISettingsHandler;
 
 public interface NodeWithSettings extends Node{
     /**
@@ -9,16 +9,16 @@ public interface NodeWithSettings extends Node{
      * @param settingsHandler
      * @return
      */
-    public NodeWithSettings setSettingsHandler(SettingsHandler settingsHandler);
+    public NodeWithSettings setSettingsHandler(ISettingsHandler settingsHandler);
 
     /**
      *
      * @param settingsID
      * @return
      */
-    public Settings getSettings(String settingsID);
-    public void setSettings(Settings settings);
-    public Settings removeSettings(String settingsID);
+    public ISettings getSettings(String settingsID);
+    public void setSettings(ISettings settings);
+    public ISettings removeSettings(String settingsID);
 
     public Object getSettingsValue(String settingsID);
     public void setSettingsValue(String settingsID, Object settingsObj);

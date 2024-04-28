@@ -1,13 +1,13 @@
 package org.techaurora.nodenet.settings;
 
-public abstract class AbstractSettings implements Settings {
+public abstract class AbstractSettings implements ISettings {
     protected String name;
     protected Object value;
     protected Validator validator;
     protected Class<?> type;
 
     @Override
-    public Settings init(String name, Class<?> type, Object value, Validator validator){
+    public ISettings init(String name, Class<?> type, Object value, Validator validator){
         this.name = name;
         this.type = type;
         this.validator = validator;

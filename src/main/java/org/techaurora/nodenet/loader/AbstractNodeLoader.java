@@ -1,13 +1,12 @@
 package org.techaurora.nodenet.loader;
 
 import org.techaurora.nodenet.nodes.Node;
-import org.techaurora.nodenet.settings.Settings;
-import org.techaurora.nodenet.settings.SettingsHandler;
-import org.techaurora.nodenet.utils.InputHandler;
-import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.settings.ISettings;
+import org.techaurora.nodenet.settings.ISettingsHandler;
+import org.techaurora.nodenet.utils.IInputHandler;
+import org.techaurora.nodenet.utils.IOutputHandler;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.URL;
@@ -22,10 +21,10 @@ import java.util.jar.JarFile;
 public abstract class AbstractNodeLoader implements NodeLoader {
     protected Map<String, Class<?>> allModClasses;
     protected Map<String, Class<? extends Node>> nodes;
-    protected Map<String, Class<? extends InputHandler>> inputHandlers;
-    protected Map<String, Class<? extends OutputHandler>> outputHandlers;
-    protected Map<String, Class<? extends SettingsHandler>> settingsHandlers;
-    protected Map<String, Class<? extends Settings>> settings;
+    protected Map<String, Class<? extends IInputHandler>> inputHandlers;
+    protected Map<String, Class<? extends IOutputHandler>> outputHandlers;
+    protected Map<String, Class<? extends ISettingsHandler>> settingsHandlers;
+    protected Map<String, Class<? extends ISettings>> settings;
 
     public Map<String, Class<?>> getAllModClasses(){
         return allModClasses;
@@ -33,16 +32,16 @@ public abstract class AbstractNodeLoader implements NodeLoader {
     public Map<String, Class<? extends Node>> getNodes(){
         return nodes;
     }
-    public Map<String, Class<? extends InputHandler>> getInputHandlers(){
+    public Map<String, Class<? extends IInputHandler>> getInputHandlers(){
         return inputHandlers;
     }
-    public Map<String, Class<? extends OutputHandler>> getOutputHandlers(){
+    public Map<String, Class<? extends IOutputHandler>> getOutputHandlers(){
         return outputHandlers;
     }
-    public Map<String, Class<? extends SettingsHandler>> getSettingsHandlers(){
+    public Map<String, Class<? extends ISettingsHandler>> getSettingsHandlers(){
         return settingsHandlers;
     }
-    public Map<String, Class<? extends Settings>> getSettings(){
+    public Map<String, Class<? extends ISettings>> getSettings(){
         return settings;
     }
 
@@ -104,17 +103,17 @@ public abstract class AbstractNodeLoader implements NodeLoader {
                     if (Node.class.isAssignableFrom(clazz)) {
                         nodes.put(className, (Class<? extends Node>) clazz);
                     }
-                    if (InputHandler.class.isAssignableFrom(clazz)) {
-                        inputHandlers.put(className, (Class<? extends InputHandler>) clazz);
+                    if (IInputHandler.class.isAssignableFrom(clazz)) {
+                        inputHandlers.put(className, (Class<? extends IInputHandler>) clazz);
                     }
-                    if (OutputHandler.class.isAssignableFrom(clazz)) {
-                        outputHandlers.put(className, (Class<? extends OutputHandler>) clazz);
+                    if (IOutputHandler.class.isAssignableFrom(clazz)) {
+                        outputHandlers.put(className, (Class<? extends IOutputHandler>) clazz);
                     }
-                    if (SettingsHandler.class.isAssignableFrom(clazz)) {
-                        settingsHandlers.put(className, (Class<? extends SettingsHandler>) clazz);
+                    if (ISettingsHandler.class.isAssignableFrom(clazz)) {
+                        settingsHandlers.put(className, (Class<? extends ISettingsHandler>) clazz);
                     }
-                    if (Settings.class.isAssignableFrom(clazz)) {
-                        settings.put(className, (Class<? extends Settings>) clazz);
+                    if (ISettings.class.isAssignableFrom(clazz)) {
+                        settings.put(className, (Class<? extends ISettings>) clazz);
                     }
                 }
             }

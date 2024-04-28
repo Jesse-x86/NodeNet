@@ -2,16 +2,16 @@ package org.techaurora.nodenet.nodes;
 
 import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.Validator;
-import org.techaurora.nodenet.utils.InputHandler;
-import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.utils.IInputHandler;
+import org.techaurora.nodenet.utils.IOutputHandler;
 
 import java.util.Map;
 
 public abstract class AbstractNode implements Node {
 
     protected Container container;
-    protected InputHandler inputHandler;
-    protected OutputHandler outputHandler;
+    protected IInputHandler inputHandler;
+    protected IOutputHandler outputHandler;
     protected Map<String, IOTypeValidateObject> inputTypes;
     protected Map<String, IOTypeValidateObject> outputTypes;
 
@@ -30,7 +30,7 @@ public abstract class AbstractNode implements Node {
      * @param inputHandler The InputHandler to inject
      */
     @Override
-    public Node setInputHandler(InputHandler inputHandler) {
+    public Node setInputHandler(IInputHandler inputHandler) {
         this.inputHandler = inputHandler;
         this.inputHandler.init(this);
         return this;
@@ -40,7 +40,7 @@ public abstract class AbstractNode implements Node {
      * @param outputHandler The OutputHandler to inject
      */
     @Override
-    public Node setOutputHandler(OutputHandler outputHandler) {
+    public Node setOutputHandler(IOutputHandler outputHandler) {
         this.outputHandler = outputHandler;
         this.outputHandler.init(this);
         return this;

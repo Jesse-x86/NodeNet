@@ -1,11 +1,10 @@
 package org.techaurora.nodenet.utils;
 
 import org.techaurora.nodenet.nodes.Node;
-import org.techaurora.nodenet.settings.Validator;
 
 import java.util.*;
 
-public abstract class AbstractInputHandler implements InputHandler {
+public abstract class AbstractInputHandler implements IInputHandler {
     protected Node node;
     protected Map<String, InputStorageObject> cache;
 

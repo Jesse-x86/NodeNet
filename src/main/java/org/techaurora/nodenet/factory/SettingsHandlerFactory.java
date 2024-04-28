@@ -1,16 +1,13 @@
 package org.techaurora.nodenet.factory;
 
-import org.techaurora.nodenet.nodes.Node;
-import org.techaurora.nodenet.settings.SettingsHandler;
-import org.techaurora.nodenet.utils.InputHandler;
+import org.techaurora.nodenet.settings.ISettingsHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SettingsHandlerFactory implements Factory{
-    Map<String, Class<? extends SettingsHandler>> data;
+    Map<String, Class<? extends ISettingsHandler>> data;
 
     @Override
     public void init(Map<String, Class<?>> classSet) {
@@ -20,14 +17,14 @@ public class SettingsHandlerFactory implements Factory{
             if(clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())){
                 continue;
             }
-            if(SettingsHandler.class.isAssignableFrom(clazz)){
-                data.put(k, clazz.asSubclass(SettingsHandler.class));
+            if(ISettingsHandler.class.isAssignableFrom(clazz)){
+                data.put(k, clazz.asSubclass(ISettingsHandler.class));
             }
         }
     }
 
     @Override
-    public SettingsHandler build(String className) {
+    public ISettingsHandler build(String className) {
         if(data.get(className) == null) return null;
         try {
             return data.get(className).getConstructor().newInstance();

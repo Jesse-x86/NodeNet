@@ -1,10 +1,10 @@
 package org.techaurora.nodenet.loader;
 
 import org.techaurora.nodenet.nodes.Node;
-import org.techaurora.nodenet.settings.Settings;
-import org.techaurora.nodenet.settings.SettingsHandler;
-import org.techaurora.nodenet.utils.InputHandler;
-import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.settings.ISettings;
+import org.techaurora.nodenet.settings.ISettingsHandler;
+import org.techaurora.nodenet.utils.IInputHandler;
+import org.techaurora.nodenet.utils.IOutputHandler;
 
 import java.io.IOException;
 import java.util.Map;
@@ -46,23 +46,23 @@ public interface NodeLoader {
      *
      * @return A map of class name and InputHandler classes
      */
-    public Map<String, Class<? extends InputHandler>> getInputHandlers();
+    public Map<String, Class<? extends IInputHandler>> getInputHandlers();
 
     /**
      *
      * @return A map of class name and OutputHandler classes
      */
-    public Map<String, Class<? extends OutputHandler>> getOutputHandlers();
+    public Map<String, Class<? extends IOutputHandler>> getOutputHandlers();
 
     /**
      *
      * @return A map of class name and SettingsHandler classes
      */
-    public Map<String, Class<? extends SettingsHandler>> getSettingsHandlers();
+    public Map<String, Class<? extends ISettingsHandler>> getSettingsHandlers();
 
     /**
      *
      * @return A map of class name and Settings classes
      */
-    public Map<String, Class<? extends Settings>> getSettings();
+    public Map<String, Class<? extends ISettings>> getSettings();
 }

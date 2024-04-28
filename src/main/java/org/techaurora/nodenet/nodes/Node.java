@@ -2,8 +2,8 @@ package org.techaurora.nodenet.nodes;
 
 import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.Validator;
-import org.techaurora.nodenet.utils.InputHandler;
-import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.utils.IInputHandler;
+import org.techaurora.nodenet.utils.IOutputHandler;
 
 import java.util.Map;
 
@@ -18,8 +18,8 @@ public interface Node {
 
     public Node setContainer(Container container);
     public Container getContainer();
-    public Node setInputHandler(InputHandler inputHandler);
-    public Node setOutputHandler(OutputHandler outputHandler);
+    public Node setInputHandler(IInputHandler inputHandler);
+    public Node setOutputHandler(IOutputHandler outputHandler);
 
     public Node setIOValidateObj(Map<String, IOTypeValidateObject> map, String ID, Class<?> type, Validator validator);
 

@@ -1,16 +1,13 @@
 package org.techaurora.nodenet.factory;
 
-import org.techaurora.nodenet.nodes.Node;
-import org.techaurora.nodenet.utils.InputHandler;
-import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.utils.IOutputHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
 public class OutputHandlerFactory implements Factory{
-    Map<String, Class<? extends OutputHandler>> data;
+    Map<String, Class<? extends IOutputHandler>> data;
 
     @Override
     public void init(Map<String, Class<?>> classSet) {
@@ -20,14 +17,14 @@ public class OutputHandlerFactory implements Factory{
             if(clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())){
                 continue;
             }
-            if(OutputHandler.class.isAssignableFrom(clazz)){
-                data.put(k, clazz.asSubclass(OutputHandler.class));
+            if(IOutputHandler.class.isAssignableFrom(clazz)){
+                data.put(k, clazz.asSubclass(IOutputHandler.class));
             }
         }
     }
 
     @Override
-    public OutputHandler build(String className) {
+    public IOutputHandler build(String className) {
         if(data.get(className) == null) return null;
         try {
             return data.get(className).getConstructor().newInstance();

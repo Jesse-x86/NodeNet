@@ -1,10 +1,6 @@
 package org.techaurora.nodenet.nodes;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.techaurora.nodenet.factory.TestFactories;
-import org.techaurora.nodenet.utils.InputHandler;
-import org.techaurora.nodenet.utils.OutputHandler;
 
 public class NodeTests {
     @Test

@@ -2,6 +2,10 @@ package org.techaurora.nodenet.container;
 
 import org.techaurora.nodenet.nodes.Node;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Container is used for containing a Node network. Each container should hold and maintain one Node network. &nbsp;
  * Container should have the ability to build Nodes, initializing them and basic managements such as connecting
@@ -44,5 +48,10 @@ public interface Container {
     public void setGlobalVar(String name, Object obj);
 
     // Global Variable implementation?
+    class FakeNode{
+        Node node;
+        HashMap<Integer, >
 
+
+    }
 }
