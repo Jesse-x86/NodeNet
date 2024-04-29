@@ -24,14 +24,30 @@ public class ArrayStorage<V extends DataWithIntID>
         size = 0;
     }
 
-    public ArrayStorage(Collection<? extends DataWithIntID> data){
+    public ArrayStorage(Collection<? extends V> data){
         this();
-        putAll(data);
+        addAll(data);
     }
 
     public ArrayStorage(Map m){
         this();
         putAll(m);
+    }
+
+    public synchronized void compress(){
+        if(!deque.isEmpty()){
+            deque.clear();
+            int slow = 0;
+            for(int fast = 0; fast < list.size(); fast++){
+                if(null != list.get(fast)){
+                    if(slow != fast){
+                        list.set(slow, list.get(fast));
+                    }
+                    slow++;
+                }
+            }
+            list = list.subList(0, slow);
+        }
     }
 
 
@@ -123,7 +139,8 @@ public class ArrayStorage<V extends DataWithIntID>
         throw new IllegalArgumentException();
     }
 
-    public V add(V value){
+    @Override
+    public boolean add(V value){
         if(deque.isEmpty()){
             value.setID(list.size());
             list.add(value);
@@ -132,11 +149,12 @@ public class ArrayStorage<V extends DataWithIntID>
             list.set((int) value.getID(),value);
         }
         size++;
-        return value;
+        return true;
     }
 
     @Override
     public boolean remove(Object o) {
+
         return false;
     }
 
@@ -176,9 +194,7 @@ public class ArrayStorage<V extends DataWithIntID>
     }
 
     public void putAll(Map m) {
-        for( : m){
-            put(entry.getKey(), entry.getValue());
-        }
+        addAll(m.values());
     }
 
     @Override
@@ -189,29 +205,16 @@ public class ArrayStorage<V extends DataWithIntID>
     }
 
     @Override
-    public Set<K> keySet() {
-        Set<K> s = new HashSet<>();
-        return null;
-    }
-
-    @Override
-    public Collection<V> values() {
-        return list;
-    }
-
-    @Override
-    public Set<Entry<K,V>> entrySet() {
-        return null;
-    }
-
-    @Override
     public boolean equals(Object o) {
+        if(ArrayStorage.class.isInstance(o)) {
+            return this.hashCode() == o.hashCode() && this.size == ((ArrayStorage)o).size;
+        }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return list.hashCode();
+        return list.hashCode() ^ deque.hashCode();
     }
 
     @Override
