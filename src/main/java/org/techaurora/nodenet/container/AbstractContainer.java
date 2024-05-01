@@ -20,11 +20,7 @@ public abstract class AbstractContainer implements Container {
     }
 
     public void connect(FakeNode output, String outputID, FakeNode input, String inputID){
-        NodeConnection nc = new NodeConnection();
-        nc.setInputID(inputID);
-        nc.setOutputID(outputID);
-        nc.setInputNode(input);
-        nc.setOutputNode(output);
+        NodeConnection nc = new NodeConnection(output, outputID, input, inputID);
         output.connectOutward(nc);
         input.connectInward(nc);
     }

@@ -20,35 +20,48 @@ public class NodeConnection {
      */
     String outputID;
 
+    public NodeConnection(Container.FakeNode output, String outputID, Container.FakeNode input, String inputID){
+        this
+                .setInputID(inputID)
+                .setOutputID(outputID)
+                .setInputNode(input)
+                .setOutputNode(output);
+    }
+
     public Container.FakeNode getInputNode() {
         return inputNode;
     }
 
-    public void setInputNode(Container.FakeNode inputNode) {
+    public NodeConnection setInputNode(Container.FakeNode inputNode) {
+//        if(null == inputNode) throw new IllegalArgumentException();
         this.inputNode = inputNode;
+        return this;
     }
 
     public Container.FakeNode getOutputNode() {
         return outputNode;
     }
 
-    public void setOutputNode(Container.FakeNode outputNode) {
+    public NodeConnection setOutputNode(Container.FakeNode outputNode) {
         this.outputNode = outputNode;
+        return this;
     }
 
     public String getInputID() {
         return inputID;
     }
 
-    public void setInputID(String inputID) {
+    public NodeConnection setInputID(String inputID) {
         this.inputID = inputID;
+        return this;
     }
 
     public String getOutputID() {
         return outputID;
     }
 
-    public void setOutputID(String outputID) {
+    public NodeConnection setOutputID(String outputID) {
         this.outputID = outputID;
+        return this;
     }
 }

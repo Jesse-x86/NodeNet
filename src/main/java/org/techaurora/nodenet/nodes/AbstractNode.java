@@ -12,8 +12,6 @@ public abstract class AbstractNode implements Node {
     protected Container container;
     protected IInputHandler inputHandler;
     protected IOutputHandler outputHandler;
-    protected Map<String, IOTypeValidateObject> inputTypes;
-    protected Map<String, IOTypeValidateObject> outputTypes;
 
     @Override
     public Node setContainer(Container container) {

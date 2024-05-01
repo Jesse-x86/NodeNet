@@ -5,6 +5,7 @@ import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.IInputHandler;
 import org.techaurora.nodenet.utils.IOutputHandler;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,8 +14,8 @@ import java.util.Map;
  *
  */
 public interface Node {
-
-
+    static Map<String, IOTypeValidateObject> inputTypes = null;
+    static Map<String, IOTypeValidateObject> outputTypes = null;
 
     public Node setContainer(Container container);
     public Container getContainer();
@@ -53,7 +54,7 @@ public interface Node {
      */
     public boolean disconnect(String outputID, Node target, String inputID);
 
-    public class IOTypeValidateObject {
+    class IOTypeValidateObject {
         public String ID;
         public Class<?> type;
         public Validator validator;
@@ -88,6 +89,26 @@ public interface Node {
                         && validator.equals(((IOTypeValidateObject) obj).validator);
             }
             return super.equals(obj);
+        }
+    }
+
+    /**
+     * I/O Types Validation map builder
+     * so that nodes don't have to write a separate static Constructor just to
+     * initialize input/outputTypes obj.
+     */
+    final class IOTypeValidateObjectBuilder{
+        Map<String, IOTypeValidateObject> data;
+        IOTypeValidateObjectBuilder(){
+            data = new HashMap<>();
+        }
+        public IOTypeValidateObjectBuilder add(String ID, Class<?> type, Validator validator){
+            data.put(ID, new IOTypeValidateObject(ID, type, validator));
+            return this;
+        }
+
+        public Map<String, IOTypeValidateObject> build(){
+            return data;
         }
     }
 }
