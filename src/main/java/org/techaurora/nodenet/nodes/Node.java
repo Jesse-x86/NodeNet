@@ -5,6 +5,7 @@ import org.techaurora.nodenet.settings.Validator;
 import org.techaurora.nodenet.utils.IInputHandler;
 import org.techaurora.nodenet.utils.IOutputHandler;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,9 +56,14 @@ public interface Node {
     public boolean disconnect(String outputID, Node target, String inputID);
 
     class IOTypeValidateObject {
-        public String ID;
-        public Class<?> type;
-        public Validator validator;
+        private String ID;
+
+        public Class<?> getType() {
+            return type;
+        }
+
+        private final Class<?> type;
+        private Validator validator;
         public IOTypeValidateObject(String ID, Class<?> type, Validator validator){
             this.ID = ID;
             this.type = type;
@@ -108,7 +114,7 @@ public interface Node {
         }
 
         public Map<String, IOTypeValidateObject> build(){
-            return data;
+            return Collections.unmodifiableMap(data);
         }
     }
 }

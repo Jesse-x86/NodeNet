@@ -8,13 +8,16 @@ import java.util.Map;
  * run in seperate thread
  */
 public abstract class CoreNode implements Runnable{
-    private Map<String, Object> args;
-    private WrapperNode wrapperNode;
+    private volatile Map<String, Object> args;
+    private volatile WrapperNode wrapperNode;
 
     public CoreNode(Map<String, Object> args, WrapperNode wrapperNode){
-        this.args = args;
-        this.wrapperNode = wrapperNode;
+        synchronized (this) {
+            this.args = args;
+            this.wrapperNode = wrapperNode;
+        }
     }
 
-
+    @Override
+    public abstract void run();
 }

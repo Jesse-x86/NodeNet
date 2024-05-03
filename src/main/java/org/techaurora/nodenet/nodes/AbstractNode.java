@@ -52,11 +52,11 @@ public abstract class AbstractNode implements Node {
 
     @Override
     public Class<?> getInputType(String inputID){
-        return getInputValidateObj(inputID).type;
+        return getInputValidateObj(inputID).getType();
     }
     @Override
     public Class<?> getOutputType(String outputID){
-        return getOutputValidateObj(outputID).type;
+        return getOutputValidateObj(outputID).getType();
     }
     @Override
     public IOTypeValidateObject getInputValidateObj(String inputID){

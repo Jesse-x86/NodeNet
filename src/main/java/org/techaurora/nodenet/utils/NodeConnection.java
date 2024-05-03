@@ -1,16 +1,16 @@
 package org.techaurora.nodenet.utils;
 
-import org.techaurora.nodenet.container.Container;
+import org.techaurora.nodenet.nodes.WrapperNode;
 
 public class NodeConnection {
     /**
      * key of input node
      */
-    Container.FakeNode inputNode;
+    WrapperNode inputNode;
     /**
      * key of output node
      */
-    Container.FakeNode outputNode;
+    WrapperNode outputNode;
     /**
      * string ID of input
      */
@@ -20,7 +20,7 @@ public class NodeConnection {
      */
     String outputID;
 
-    public NodeConnection(Container.FakeNode output, String outputID, Container.FakeNode input, String inputID){
+    public NodeConnection(WrapperNode output, String outputID, WrapperNode input, String inputID){
         this
                 .setInputID(inputID)
                 .setOutputID(outputID)
@@ -28,21 +28,21 @@ public class NodeConnection {
                 .setOutputNode(output);
     }
 
-    public Container.FakeNode getInputNode() {
+    public WrapperNode getInputNode() {
         return inputNode;
     }
 
-    public NodeConnection setInputNode(Container.FakeNode inputNode) {
+    public NodeConnection setInputNode(WrapperNode inputNode) {
 //        if(null == inputNode) throw new IllegalArgumentException();
         this.inputNode = inputNode;
         return this;
     }
 
-    public Container.FakeNode getOutputNode() {
+    public WrapperNode getOutputNode() {
         return outputNode;
     }
 
-    public NodeConnection setOutputNode(Container.FakeNode outputNode) {
+    public NodeConnection setOutputNode(WrapperNode outputNode) {
         this.outputNode = outputNode;
         return this;
     }
