@@ -2,12 +2,11 @@ package org.techaurora.nodenet.nodes;
 
 import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.Validator;
-import org.techaurora.nodenet.utils.IInputHandler;
-import org.techaurora.nodenet.utils.IOutputHandler;
+import org.techaurora.nodenet.utils.InputHandler;
+import org.techaurora.nodenet.utils.OutputHandler;
+import org.techaurora.nodenet.utils.StringIndexedArray;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The interface of Node, the very basic component of any node network.
@@ -15,45 +14,14 @@ import java.util.Map;
  *
  */
 public interface Node {
-    static Map<String, IOTypeValidateObject> inputTypes = null;
-    static Map<String, IOTypeValidateObject> outputTypes = null;
+    public final static StringIndexedArray<IOTypeValidateObject> inputTypes = null;
+    public final static StringIndexedArray<IOTypeValidateObject> outputTypes = null;
 
     public Node setContainer(Container container);
     public Container getContainer();
-    public Node setInputHandler(IInputHandler inputHandler);
-    public Node setOutputHandler(IOutputHandler outputHandler);
 
-    public Node setIOValidateObj(Map<String, IOTypeValidateObject> map, String ID, Class<?> type, Validator validator);
-
-    public Class<?> getInputType(String inputID);
-    public Class<?> getOutputType(String inputID);
-    public IOTypeValidateObject getInputValidateObj(String inputID);
-    public IOTypeValidateObject getOutputValidateObj(String outputID);
-    public Map<String, IOTypeValidateObject> getInputValidateObjs();
-    public Map<String, IOTypeValidateObject> getOutputValidateObjs();
-
-
-    public void input(String inputID, Object obj, boolean isPersistent);
-
-    /**
-     * Check whether the input is ready. If input is ready, then proceed.
-     */
-    public void checkAndProceed();
-
-    /**
-     * Connect current node's output to some node's input
-     * @param outputID the output ID
-     * @param target the target node
-     * @param inputID the target node's input ID
-     */
-    public boolean connect(String outputID, Node target, String inputID);
-    /**
-     * Disconnect current node's output to some node's input
-     * @param outputID the output ID
-     * @param target the target node
-     * @param inputID the target node's input ID
-     */
-    public boolean disconnect(String outputID, Node target, String inputID);
+    public StringIndexedArray<IOTypeValidateObject> getInputValidateObjs();
+    public StringIndexedArray<IOTypeValidateObject> getOutputValidateObjs();
 
     class IOTypeValidateObject {
         private String ID;
@@ -104,17 +72,20 @@ public interface Node {
      * initialize input/outputTypes obj.
      */
     final class IOTypeValidateObjectBuilder{
-        Map<String, IOTypeValidateObject> data;
+        List<String> ids;
+        List<IOTypeValidateObject> data;
         IOTypeValidateObjectBuilder(){
-            data = new HashMap<>();
+            ids = new ArrayList<>();
+            data = new ArrayList<>();
         }
         public IOTypeValidateObjectBuilder add(String ID, Class<?> type, Validator validator){
-            data.put(ID, new IOTypeValidateObject(ID, type, validator));
+            ids.add(ID);
+            data.add(new IOTypeValidateObject(ID, type, validator));
             return this;
         }
 
-        public Map<String, IOTypeValidateObject> build(){
-            return Collections.unmodifiableMap(data);
+        public StringIndexedArray<IOTypeValidateObject> build(){
+            return new StringIndexedArray<>(ids, data).unmodifiableCopy();
         }
     }
 }

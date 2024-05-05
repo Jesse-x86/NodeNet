@@ -1,26 +1,26 @@
 package org.techaurora.nodenet.utils;
 
-import org.techaurora.nodenet.nodes.WrapperNode;
+import org.techaurora.nodenet.nodes.Node;
 
 public class NodeConnection {
     /**
      * key of input node
      */
-    WrapperNode inputNode;
+    private Node inputNode;
     /**
      * key of output node
      */
-    WrapperNode outputNode;
+    private Node outputNode;
     /**
      * string ID of input
      */
-    String inputID;
+    private int inputID;
     /**
      * string ID of output
      */
-    String outputID;
+    private int outputID;
 
-    public NodeConnection(WrapperNode output, String outputID, WrapperNode input, String inputID){
+    private NodeConnection(Node output, int outputID, Node input, int inputID){
         this
                 .setInputID(inputID)
                 .setOutputID(outputID)
@@ -28,40 +28,47 @@ public class NodeConnection {
                 .setOutputNode(output);
     }
 
-    public WrapperNode getInputNode() {
+    public Node getInputNode() {
         return inputNode;
     }
 
-    public NodeConnection setInputNode(WrapperNode inputNode) {
-//        if(null == inputNode) throw new IllegalArgumentException();
+    public Node getOutputNode() {
+        return outputNode;
+    }
+
+    public int getInputID() {
+        return inputID;
+    }
+
+    public int getOutputID() {
+        return outputID;
+    }
+
+    private NodeConnection setInputNode(Node inputNode) {
         this.inputNode = inputNode;
         return this;
     }
 
-    public WrapperNode getOutputNode() {
-        return outputNode;
-    }
-
-    public NodeConnection setOutputNode(WrapperNode outputNode) {
+    private NodeConnection setOutputNode(Node outputNode) {
         this.outputNode = outputNode;
         return this;
     }
 
-    public String getInputID() {
-        return inputID;
-    }
-
-    public NodeConnection setInputID(String inputID) {
+    private NodeConnection setInputID(int inputID) {
         this.inputID = inputID;
         return this;
     }
 
-    public String getOutputID() {
-        return outputID;
-    }
-
-    public NodeConnection setOutputID(String outputID) {
+    private NodeConnection setOutputID(int outputID) {
         this.outputID = outputID;
         return this;
+    }
+
+    public static NodeConnection build(Node output, int outputID, Node input, int inputID){
+        NodeConnection nc = new NodeConnection(output, outputID, input, inputID);
+        if(!nc.inputNode.getInputValidateObjs().get(inputID).getType().isAssignableFrom(nc.outputNode.getOutputValidateObjs().get(outputID).getType())){
+            throw new IllegalArgumentException();
+        }
+        return nc;
     }
 }

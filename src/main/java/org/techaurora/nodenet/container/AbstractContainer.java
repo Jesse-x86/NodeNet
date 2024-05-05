@@ -1,7 +1,6 @@
 package org.techaurora.nodenet.container;
 
 import org.techaurora.nodenet.nodes.Node;
-import org.techaurora.nodenet.nodes.WrapperNode;
 import org.techaurora.nodenet.utils.NodeConnection;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.concurrent.Executors;
 public abstract class AbstractContainer implements Container {
     Set<Node> nodes;
     Map<String, Object> globalVars;
-    Map<Long, WrapperNode> nodeMap;
+    Map<Long, Node> nodeMap;
 
     transient ExecutorService pool = Executors.newCachedThreadPool();
     transient ExecutorService timedPool = Executors.newScheduledThreadPool(1);
@@ -25,10 +24,8 @@ public abstract class AbstractContainer implements Container {
         globalVars = new HashMap<>();
     }
 
-    public void connect(WrapperNode output, String outputID, WrapperNode input, String inputID){
-        NodeConnection nc = new NodeConnection(output, outputID, input, inputID);
-        output.connectOutward(nc);
-        input.connectInward(nc);
+    public void connect(Node output, int outputID, Node input, int inputID){
+        NodeConnection nc = NodeConnection.build(output, outputID, input, inputID);
     }
 
     @Override
