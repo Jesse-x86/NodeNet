@@ -2,52 +2,45 @@ package org.techaurora.nodenet.utils;
 
 import org.techaurora.nodenet.nodes.Node;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ConnectionHandler {
+public class ConnectionHandler implements Serializable {
     private Node node;
-    private StringIndexedArray<NodeConnection> inwardConnections;
-    private StringIndexedArray<NodeConnection> outwardConnections;
+    /**
+     * A map of connections, categorized by Nodes its connected to
+     * String: Node ID
+     */
+    private Map<String, List<NodeConnection>> inwardConnections;
+    private Map<String, List<NodeConnection>> outwardConnections;
 
     ConnectionHandler(Node node){
-        inwardConnections = new StringIndexedArray<>();
-        outwardConnections = new StringIndexedArray<>();
+        inwardConnections = new HashMap<>();
+        outwardConnections = new HashMap<>();
         this.node = node;
     }
 
 
     public void connectInward(NodeConnection connection) {
-        connect(inwardConnections, connection);
+
     }
 
     public void connectOutward(NodeConnection connection) {
-        connect(outwardConnections, connection);
+
     }
 
     public void disconnectInward(NodeConnection connection){
-        disconnect(inwardConnections, connection);
+
     }
 
     public void disconnectOutward(NodeConnection connection){
-        disconnect(outwardConnections, connection);
+
     }
 
-    private static void connect(StringIndexedArray<NodeConnection> connections, NodeConnection nodeConnection){
-        synchronized (connections) {
-            connections.put(nodeConnection);
-        }
-    }
+    public void deleteALLInward(Node node){
 
-    private static void disconnect(StringIndexedArray<NodeConnection> connections, NodeConnection nodeConnection){
-        synchronized (connections) {
-            for (int i = 0; i < connections.size(); i++) {
-                if (connections.get(i).equals(nodeConnection)){
-                    connections.set(i, connections.get(connections.size() - 1));
-                    connections.remove(connections.size() - 1);
-                }
-            }
-        }
     }
-
 }

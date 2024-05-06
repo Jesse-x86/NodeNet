@@ -1,5 +1,6 @@
 package org.techaurora.nodenet.nodes;
 
+import org.techaurora.nodenet.container.Container;
 import org.techaurora.nodenet.settings.ISettings;
 import org.techaurora.nodenet.settings.ISettingsHandler;
 
@@ -14,6 +15,10 @@ public abstract class AbstractNodeWithSettings extends AbstractNode implements N
      * , try to extend AbstractNode instead.
      */
     protected Map<String, ISettings> defaultSettings;
+
+    public AbstractNodeWithSettings(Container container, long instanceID) {
+        super(container, instanceID);
+    }
 
     @Override
     public NodeWithSettings setSettingsHandler(ISettingsHandler settingsHandler){

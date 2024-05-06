@@ -6,7 +6,7 @@ import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InputHandler extends AbstractInputHandler{
+public class InputHandler{
     protected Node node;
     protected Map<String, InputStorageObject> cache;
 

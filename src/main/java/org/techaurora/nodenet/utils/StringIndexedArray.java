@@ -1,8 +1,6 @@
 package org.techaurora.nodenet.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class StringIndexedArray<T> {
     private final List<String> indexArray;
@@ -23,6 +21,26 @@ public class StringIndexedArray<T> {
     public StringIndexedArray(List<String> indexArray, List<T> data){
         this.indexArray = indexArray;
         this.data = data;
+    }
+
+    public StringIndexedArray(Map<String, ? extends T> data){
+        this.indexArray = new ArrayList<>();
+        this.data = new ArrayList<>();
+        for(Map.Entry<String, ? extends T> entry : data.entrySet()){
+            this.indexArray.add(entry.getKey());
+            this.data.add(entry.getValue());
+        }
+    }
+
+    public Map<String, T> toMap(){
+        return toMap(new HashMap<>());
+    }
+
+    public Map<String, T> toMap(Map<String, T> map){
+        for(int i = 0; i < this.indexArray.size(); i++){
+            map.put(this.indexArray.get(i), this.data.get(i));
+        }
+        return map;
     }
 
     public void put(String index, T value){

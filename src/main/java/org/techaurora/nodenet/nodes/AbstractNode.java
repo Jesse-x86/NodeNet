@@ -11,11 +11,11 @@ public abstract class AbstractNode implements Node {
 
     protected Container container;
     protected static final Runnable core = null;
+    private final long instanceID;
 
-    @Override
-    public Node setContainer(Container container) {
+    public AbstractNode(Container container, long instanceID){
         this.container = container;
-        return this;
+        this.instanceID = instanceID;
     }
 
     @Override
@@ -24,12 +24,12 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public StringIndexedArray<IOTypeValidateObject> getInputValidateObjs() {
+    public Map<String, IOTypeValidateObject> getInputValidateObjs() {
         return inputTypes;
     }
 
     @Override
-    public StringIndexedArray<IOTypeValidateObject> getOutputValidateObjs() {
+    public Map<String, IOTypeValidateObject> getOutputValidateObjs() {
         return outputTypes;
     }
 

@@ -9,11 +9,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class AbstractContainer implements Container {
     Set<Node> nodes;
     Map<String, Object> globalVars;
     Map<Long, Node> nodeMap;
+
+    AtomicLong instanceIDManager = new AtomicLong();
 
     transient ExecutorService pool = Executors.newCachedThreadPool();
     transient ExecutorService timedPool = Executors.newScheduledThreadPool(1);

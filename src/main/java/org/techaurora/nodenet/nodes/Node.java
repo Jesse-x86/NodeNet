@@ -6,6 +6,7 @@ import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
 import org.techaurora.nodenet.utils.StringIndexedArray;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -13,15 +14,17 @@ import java.util.*;
  * Typically a Node should contain a InputHandler, and a static OutputHandler
  *
  */
-public interface Node {
-    public final static StringIndexedArray<IOTypeValidateObject> inputTypes = null;
-    public final static StringIndexedArray<IOTypeValidateObject> outputTypes = null;
+public interface Node extends Serializable {
+    public final static Map<String, IOTypeValidateObject> inputTypes = null;
+    public final static Map<String, IOTypeValidateObject> outputTypes = null;
 
-    public Node setContainer(Container container);
+    public long getInstanceID();
+
+//    public Node setContainer(Container container);
     public Container getContainer();
 
-    public StringIndexedArray<IOTypeValidateObject> getInputValidateObjs();
-    public StringIndexedArray<IOTypeValidateObject> getOutputValidateObjs();
+    public Map<String, IOTypeValidateObject> getInputValidateObjs();
+    public Map<String, IOTypeValidateObject> getOutputValidateObjs();
 
     class IOTypeValidateObject {
         private String ID;
@@ -72,20 +75,17 @@ public interface Node {
      * initialize input/outputTypes obj.
      */
     final class IOTypeValidateObjectBuilder{
-        List<String> ids;
-        List<IOTypeValidateObject> data;
+        Map<String, IOTypeValidateObject> map;
+
         IOTypeValidateObjectBuilder(){
-            ids = new ArrayList<>();
-            data = new ArrayList<>();
+            map = new HashMap<>();
         }
         public IOTypeValidateObjectBuilder add(String ID, Class<?> type, Validator validator){
-            ids.add(ID);
-            data.add(new IOTypeValidateObject(ID, type, validator));
+            map.put(ID, new IOTypeValidateObject(ID, type, validator));
             return this;
         }
-
-        public StringIndexedArray<IOTypeValidateObject> build(){
-            return new StringIndexedArray<>(ids, data).unmodifiableCopy();
+        public Map<String, IOTypeValidateObject> build(){
+            return Collections.unmodifiableMap(map);
         }
     }
 }

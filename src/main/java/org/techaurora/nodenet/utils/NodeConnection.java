@@ -2,7 +2,9 @@ package org.techaurora.nodenet.utils;
 
 import org.techaurora.nodenet.nodes.Node;
 
-public class NodeConnection {
+import java.io.Serializable;
+
+public class NodeConnection implements Serializable {
     /**
      * key of input node
      */
@@ -66,8 +68,12 @@ public class NodeConnection {
 
     public static NodeConnection build(Node output, int outputID, Node input, int inputID){
         NodeConnection nc = new NodeConnection(output, outputID, input, inputID);
-        if(!nc.inputNode.getInputValidateObjs().get(inputID).getType().isAssignableFrom(nc.outputNode.getOutputValidateObjs().get(outputID).getType())){
-            throw new IllegalArgumentException();
+        try {
+            if (!nc.inputNode.getInputValidateObjs().get(inputID).getType().isAssignableFrom(nc.outputNode.getOutputValidateObjs().get(outputID).getType())) {
+                throw new IllegalArgumentException();
+            }
+        } catch (Exception e){
+            throw new IllegalArgumentException(e);
         }
         return nc;
     }
