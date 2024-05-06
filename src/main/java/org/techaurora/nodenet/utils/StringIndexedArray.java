@@ -1,8 +1,10 @@
 package org.techaurora.nodenet.utils;
 
+import java.io.Serializable;
 import java.util.*;
+import java.util.function.Consumer;
 
-public class StringIndexedArray<T> {
+public class StringIndexedArray<T> implements Iterable, Serializable {
     private final List<String> indexArray;
     private final List<T> data;
 
@@ -103,6 +105,21 @@ public class StringIndexedArray<T> {
 
     public <T> StringIndexedArray<T> unmodifiableCopy(){
         return new unmodifiableStringIndexedArray<>(indexArray, data);
+    }
+
+    @Override
+    public Iterator iterator() {
+        return data.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer action) {
+        Iterable.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator spliterator() {
+        return Iterable.super.spliterator();
     }
 
     private class unmodifiableStringIndexedArray<T> extends StringIndexedArray<T>{

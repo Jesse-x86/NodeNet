@@ -2,11 +2,12 @@ package org.techaurora.nodenet.utils;
 
 import org.techaurora.nodenet.nodes.Node;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InputHandler{
+public class InputHandler implements Serializable {
     protected Node node;
     protected Map<String, InputStorageObject> cache;
 
