@@ -5,13 +5,19 @@ import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
 import org.techaurora.nodenet.utils.StringIndexedArray;
 
+import java.io.Serial;
 import java.util.Map;
 
 public abstract class AbstractNode implements Node {
+    @Serial
+    protected final long serialVersionUID = 0L;
+
+    private final long instanceID;
+
 
     protected Container container;
+    protected InputHandler inputHandler;
     protected static final Runnable core = null;
-    private final long instanceID;
 
     public AbstractNode(Container container, long instanceID){
         this.container = container;

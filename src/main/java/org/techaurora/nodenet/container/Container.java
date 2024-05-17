@@ -31,20 +31,15 @@ public interface Container extends Serializable {
      */
     public void disconnect(Node output, String outputID, Node input, String inputID);
 
+    public void createNode();
+
+    public void deleteNode();
+
+
     /**
      * Start all nodes within the container (would still skip those who requires data to launch)
      */
     public void start();
-
-    /**
-     * Save function, not implemented yet, may change format in future
-     */
-    public void save();
-
-    /**
-     * Load function, not implemented yet, may change format in future
-     */
-    public void load();
 
     public Object getGlobalVar(String name);
     public void setGlobalVar(String name, Object obj);

@@ -4,12 +4,7 @@ import org.techaurora.nodenet.nodes.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class OutputHandler implements Serializable {
-    public static void output(Node outputNode, ArrayList data) {
-
-    }
+public interface OutputHandler extends Serializable {
+    public void output(Node outputNode, ArrayList data);
 }

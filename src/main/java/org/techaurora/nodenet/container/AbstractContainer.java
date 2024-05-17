@@ -12,18 +12,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class AbstractContainer implements Container {
-    Set<Node> nodes;
     Map<String, Object> globalVars;
     Map<Long, Node> nodeMap;
 
     AtomicLong instanceIDManager = new AtomicLong();
 
     transient ExecutorService pool = Executors.newCachedThreadPool();
-    transient ExecutorService timedPool = Executors.newScheduledThreadPool(1);
 
 
     public AbstractContainer(){
-        nodes = new HashSet<>();
         globalVars = new HashMap<>();
     }
 
@@ -33,19 +30,12 @@ public abstract class AbstractContainer implements Container {
 
     @Override
     public void connect(Node output, String outputID, Node input, String inputID) {
-        output.connect(outputID, input, inputID);
+
     }
 
     @Override
     public void disconnect(Node output, String outputID, Node input, String inputID) {
-        output.disconnect(outputID, input, inputID);
-    }
 
-    @Override
-    public void start() {
-        for (Node n: nodes) {
-            n.checkAndProceed();
-        }
     }
 
     @Override

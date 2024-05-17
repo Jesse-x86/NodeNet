@@ -6,21 +6,25 @@ import org.techaurora.nodenet.utils.InputHandler;
 import org.techaurora.nodenet.utils.OutputHandler;
 import org.techaurora.nodenet.utils.StringIndexedArray;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.Future;
 
 /**
  * The interface of Node, the very basic component of any node network.
  * Typically a Node should contain a InputHandler, and a static OutputHandler
  *
  */
-public interface Node extends Serializable {
+public interface Node extends Serializable, Future {
+    @Serial
+    final long serialVersionUID = 0L;
     public final static Map<String, IOTypeValidateObject> inputTypes = null;
     public final static Map<String, IOTypeValidateObject> outputTypes = null;
 
     public long getInstanceID();
 
-//    public Node setContainer(Container container);
+    public Node setContainer(Container container);
     public Container getContainer();
 
     public Map<String, IOTypeValidateObject> getInputValidateObjs();
